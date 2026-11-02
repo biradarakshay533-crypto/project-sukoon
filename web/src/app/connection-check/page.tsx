@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 // Temporary page that proves the website can reach Supabase.
@@ -14,6 +15,7 @@ export default function ConnectionCheck() {
 }
 
 async function ConnectionResult() {
+  await connection();
   const supabase = await createClient();
   const { data, error } = await supabase.from("settings").select().single();
 
