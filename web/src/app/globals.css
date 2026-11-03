@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
-/* Placeholder brand colours until the client shares theirs. */
+/* Sukoonam colours: deep mulberry, coral and warm porcelain.
+   Swap these if the client shares brand colours later. */
 :root {
-  --background: #f8f4ec;
-  --foreground: #23302b;
-  --brand: #2f5d50;
-  --brand-dark: #234639;
-  --accent: #c8975a;
-  --muted: #64716b;
-  --card: #fffdf9;
-  --line: #e4dccd;
+  --background: #fbf7f4;
+  --foreground: #241a2b;
+  --brand: #7a2e5c;
+  --brand-dark: #4f1c3c;
+  --accent: #ff6f61;
+  --accent-soft: #ffe3dc;
+  --muted: #6f6375;
+  --card: #ffffff;
+  --line: #ecdfe4;
+  --night: #1d1224;
 }
 
 @theme inline {
@@ -18,11 +21,14 @@
   --color-brand: var(--brand);
   --color-brand-dark: var(--brand-dark);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --color-muted: var(--muted);
   --color-card: var(--card);
   --color-line: var(--line);
+  --color-night: var(--night);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
 }
 
 body {
@@ -46,8 +52,32 @@ body {
   animation: rise-in 0.5s ease-out both;
 }
 
+/* A slow drift and zoom that makes still photos feel like video. */
+@keyframes drift {
+  from {
+    transform: scale(1.02) translate(0, 0);
+  }
+  to {
+    transform: scale(1.14) translate(-2%, -2%);
+  }
+}
+
+.drift {
+  animation: drift 14s ease-in-out infinite alternate;
+}
+
+/* Rows that scroll sideways on phones, without a visible scrollbar. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .rise-in {
+  .rise-in,
+  .drift {
     animation: none;
   }
 }
