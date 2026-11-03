@@ -18,6 +18,8 @@ export function SignupForm({ role }: { role: "customer" | "partner" }) {
         inputMode="numeric"
         autoComplete="tel-national"
         maxLength={10}
+        pattern="[6-9][0-9]{9}"
+        title="A 10-digit mobile number"
         required
       />
       <FormField label="Email" name="email" type="email" autoComplete="email" required />

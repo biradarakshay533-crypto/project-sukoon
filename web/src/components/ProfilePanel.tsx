@@ -1,12 +1,13 @@
 import { redirect } from "next/navigation";
 import { connection } from "next/server";
+import type { ReactNode } from "react";
 import { logOut } from "@/lib/auth-actions";
 import { createClient } from "@/lib/supabase/server";
 import { ProfileForm } from "@/components/ProfileForm";
 
 type ProfilePanelProps = {
   role: "customer" | "partner";
-  nextUp: string;
+  nextUp: ReactNode;
 };
 
 // Shows the signed-in user's details and sends everyone else to the right page.

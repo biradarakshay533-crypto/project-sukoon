@@ -21,6 +21,8 @@ export function ProfileForm({ fullName, phone }: ProfileFormProps) {
         type="tel"
         inputMode="numeric"
         maxLength={10}
+        pattern="[6-9][0-9]{9}"
+        title="A 10-digit mobile number"
         defaultValue={phone}
         required
       />

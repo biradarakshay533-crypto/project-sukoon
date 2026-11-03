@@ -1,19 +1,52 @@
-import type { InputHTMLAttributes } from "react";
+import type { InputHTMLAttributes, ReactNode, Ref, TextareaHTMLAttributes } from "react";
+
+const controlStyle =
+  "rounded-xl border border-line bg-white px-4 py-3 text-base font-normal outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20";
 
 type FormFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name: string;
+  ref?: Ref<HTMLInputElement>;
 };
 
 export function FormField({ label, name, ...inputProps }: FormFieldProps) {
   return (
     <label className="flex flex-col gap-1.5 text-sm font-medium">
       {label}
-      <input
-        name={name}
-        className="rounded-xl border border-line bg-white px-4 py-3 text-base font-normal outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-        {...inputProps}
-      />
+      <input name={name} className={controlStyle} {...inputProps} />
+    </label>
+  );
+}
+
+type TextAreaFieldProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  label: string;
+  name: string;
+};
+
+export function TextAreaField({ label, name, ...textareaProps }: TextAreaFieldProps) {
+  return (
+    <label className="flex flex-col gap-1.5 text-sm font-medium">
+      {label}
+      <textarea name={name} rows={3} className={controlStyle} {...textareaProps} />
+    </label>
+  );
+}
+
+type SelectFieldProps = {
+  label: string;
+  name: string;
+  defaultValue?: string;
+  required?: boolean;
+  children: ReactNode;
+};
+
+export function SelectField({ label, name, defaultValue, required, children }: SelectFieldProps) {
+  return (
+    <label className="flex flex-col gap-1.5 text-sm font-medium">
+      {label}
+      <select name={name} defaultValue={defaultValue} required={required} className={controlStyle}>
+        {children}
+      </select>
     </label>
   );
 }
