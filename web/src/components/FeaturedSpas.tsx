@@ -1,54 +1,68 @@
-import Image from "next/image";
-import Link from "next/link";
-import { formatRupees } from "@/lib/format";
-import type { SpaSummary } from "@/lib/spas";
+"use client";
 
-// Large moving photo cards for the spas the client has featured.
-export function FeaturedSpas({ spas, title }: { spas: SpaSummary[]; title: string }) {
+import Link from "next/link";
+import { useState } from "react";
+import { SpaCard } from "@/components/SpaCard";
+import type { MassageType, SpaSummary } from "@/lib/spas";
+
+const SHOWN = 8;
+
+// A spa grid with massage tabs, in the style of a "new arrivals" shelf.
+export function FeaturedSpas({
+  spas,
+  massageTypes,
+  title,
+}: {
+  spas: SpaSummary[];
+  massageTypes: MassageType[];
+  title: string;
+}) {
+  const [typeId, setTypeId] = useState<string | null>(null);
+
   if (spas.length === 0) {
     return null;
   }
 
+  // Only offer tabs that would show at least one spa.
+  const tabs = massageTypes.filter((type) => spas.some((spa) => spa.massageTypeIds.includes(type.id)));
+  const shown = spas.filter((spa) => !typeId || spa.massageTypeIds.includes(typeId)).slice(0, SHOWN);
+  const tabStyle = "shrink-0 border px-4 py-1.5 text-sm transition";
+
   return (
-    <section className="flex flex-col gap-5">
-      <div>
-        <h2 className="font-display text-3xl font-semibold tracking-tight">{title}</h2>
-        <p className="mt-1 text-muted">Hand-picked places to unwind this week</p>
-      </div>
-      <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2">
-        {spas.map((spa, index) => (
-          <Link
-            key={spa.id}
-            href={`/spas/${spa.id}`}
-            className="group relative aspect-[4/3] w-[72%] shrink-0 snap-center overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-accent sm:aspect-[16/10] sm:w-[44%] lg:w-[31%]"
+    <section className="flex flex-col items-center gap-6">
+      <h2 className="font-display text-3xl font-semibold sm:text-4xl">{title}</h2>
+      <div className="no-scrollbar -mx-4 flex max-w-full items-center gap-2 overflow-x-auto px-4">
+        <button
+          type="button"
+          onClick={() => setTypeId(null)}
+          className={`${tabStyle} ${!typeId ? "border-night bg-night text-white" : "border-line text-muted hover:text-foreground"}`}
+        >
+          All
+        </button>
+        {tabs.map((type) => (
+          <button
+            key={type.id}
+            type="button"
+            onClick={() => setTypeId(type.id)}
+            className={`${tabStyle} ${type.id === typeId ? "border-night bg-night text-white" : "border-line text-muted hover:text-foreground"}`}
           >
-            {spa.photoUrl && (
-              <Image
-                src={spa.photoUrl}
-                alt={spa.name}
-                fill
-                priority={index === 0}
-                sizes="(min-width: 1024px) 31vw, (min-width: 640px) 44vw, 72vw"
-                className="drift object-cover"
-                style={{ animationDelay: `-${index * 3}s` }}
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/20 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4 text-white sm:p-5">
-              <div>
-                <p className="font-display text-xl font-semibold sm:text-2xl">{spa.name}</p>
-                <p className="text-sm text-white/80">
-                  {spa.city}
-                  {spa.lowestPricePaise && ` · From ${formatRupees(spa.lowestPricePaise)}`}
-                </p>
-              </div>
-              <span className="shrink-0 rounded-full bg-white px-4 py-2 text-sm font-semibold text-brand transition group-hover:bg-accent group-hover:text-white">
-                View spa
-              </span>
-            </div>
-          </Link>
+            {type.name.replace(" Massage", "")}
+          </button>
         ))}
+        <Link
+          href="/spas"
+          className="ml-2 shrink-0 border-b-2 border-night text-sm font-semibold tracking-wider uppercase"
+        >
+          View all
+        </Link>
       </div>
+      <ul className="grid w-full grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+        {shown.map((spa, index) => (
+          <li key={spa.id}>
+            <SpaCard spa={spa} priority={index < 2} />
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

@@ -11,9 +11,9 @@ export default function SpasPage({ searchParams }: PageProps<"/spas">) {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 pt-4 pb-10">
+      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 pt-8 pb-16">
         <div className="rise-in">
-          <h1 className="font-display text-4xl font-semibold tracking-tight">Find a spa</h1>
+          <h1 className="font-display text-4xl font-semibold">Find a spa</h1>
           <p className="mt-1 text-muted">Choose a massage and book a spa near you.</p>
         </div>
         <Suspense fallback={<p className="text-muted">Loading spas...</p>}>
@@ -32,14 +32,15 @@ async function SpaList({
 }) {
   const { q, type } = await searchParams;
   const { spas, massageTypes } = await getApprovedSpas();
-  const typeId = typeof type === "string" && massageTypes.some((t) => t.id === type) ? type : null;
+  // "type" may be a massage type's id or its name.
+  const match = typeof type === "string" ? massageTypes.find((t) => t.id === type || t.name === type) : null;
 
   return (
     <SpaBrowser
       spas={spas}
       massageTypes={massageTypes}
       initialQuery={typeof q === "string" ? q : ""}
-      initialTypeId={typeId}
+      initialTypeId={match?.id ?? null}
     />
   );
 }

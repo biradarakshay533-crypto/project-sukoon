@@ -89,8 +89,8 @@ export async function getApprovedSpas() {
     spas: summaries,
     massageTypes,
     refund: {
-      percent: settings?.refund_percent ?? 90,
-      cutoffHours: settings?.refund_cutoff_hours ?? 3,
+      percent: settings?.refund_percent ?? 100,
+      cutoffHours: settings?.refund_cutoff_hours ?? 6,
     },
   };
 }

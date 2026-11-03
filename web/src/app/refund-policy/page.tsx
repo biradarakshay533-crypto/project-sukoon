@@ -45,8 +45,8 @@ async function CancellationRules() {
   await connection();
   const supabase = await createClient();
   const { data: settings } = await supabase.from("settings").select().single();
-  const percent = settings?.refund_percent ?? 90;
-  const hours = settings?.refund_cutoff_hours ?? 3;
+  const percent = settings?.refund_percent ?? 100;
+  const hours = settings?.refund_cutoff_hours ?? 6;
 
   return (
     <ul>

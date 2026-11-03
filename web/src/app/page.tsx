@@ -1,20 +1,25 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { FeaturedSpas } from "@/components/FeaturedSpas";
-import { MassageMoods, WhyChoose } from "@/components/HomeSections";
+import { HeroCarousel } from "@/components/HeroCarousel";
+import {
+  MassageMoods,
+  PromoBanner,
+  SectionTitle,
+  ServiceStrip,
+  WhyChoose,
+} from "@/components/HomeSections";
 import { MassageTile } from "@/components/MassageTile";
 import { NearbySpas } from "@/components/NearbySpas";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getApprovedSpas } from "@/lib/spas";
-import { pexelsUrl } from "@/lib/stock-photos";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col pb-24 sm:pb-0">
-      <AnnouncementBar />
-      <Hero />
+    <div className="flex flex-1 flex-col pb-20 sm:pb-0">
+      <SiteHeader />
+      <HeroCarousel />
       <Suspense fallback={<HomeSkeleton />}>
         <HomeContent />
       </Suspense>
@@ -23,89 +28,10 @@ export default function Home() {
       <SiteFooter />
       <Link
         href="/spas"
-        className="fixed inset-x-4 bottom-4 z-20 rounded-full bg-accent py-4 text-center font-semibold text-white shadow-[0_10px_30px_rgba(255,111,97,0.45)] sm:hidden"
+        className="fixed inset-x-0 bottom-0 z-20 bg-night py-4 text-center text-sm font-medium tracking-wider text-white uppercase sm:hidden"
       >
         Find a spa near me
       </Link>
-    </div>
-  );
-}
-
-function AnnouncementBar() {
-  return (
-    <div className="bg-accent px-4 py-2 text-center text-sm font-medium text-white">
-      Now booking spas across Dharwad · Pay only when your spa accepts
-    </div>
-  );
-}
-
-function Hero() {
-  return (
-    <section className="relative overflow-hidden bg-night text-white">
-      <div className="pointer-events-none absolute -top-32 -left-24 size-[28rem] rounded-full bg-brand/70 blur-3xl" />
-      <div className="pointer-events-none absolute -right-24 -bottom-40 size-[30rem] rounded-full bg-accent/40 blur-3xl" />
-      <SiteHeader light />
-      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 pt-8 pb-16 sm:pt-16 sm:pb-24 lg:grid-cols-[1.1fr_1fr]">
-        <div className="flex flex-col gap-7">
-          <p className="rise-in text-sm font-semibold tracking-[0.2em] text-accent uppercase">
-            Spa booking in Dharwad
-          </p>
-          <h1 className="rise-in max-w-3xl font-display text-5xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-7xl">
-            Your hour of calm is closer than you think
-          </h1>
-          <p className="rise-in max-w-xl text-lg text-white/80">
-            Compare spas near you, pick your massage and send a booking request in under a minute.
-          </p>
-          <form
-            action="/spas"
-            className="rise-in flex w-full max-w-2xl flex-col gap-2 rounded-3xl bg-white p-2 shadow-2xl sm:flex-row sm:rounded-full"
-          >
-            <input
-              type="search"
-              name="q"
-              placeholder="Search for a spa or area"
-              aria-label="Search spas"
-              className="min-w-0 flex-1 rounded-full px-5 py-3 text-foreground outline-none"
-            />
-            <button
-              type="submit"
-              className="rounded-full bg-accent px-7 py-3 font-semibold text-white transition hover:brightness-110"
-            >
-              Find spas
-            </button>
-          </form>
-        </div>
-        <HeroCollage />
-      </div>
-    </section>
-  );
-}
-
-const HERO_PHOTOS = [
-  { id: "6629530", alt: "Hot stone massage", className: "row-span-2" },
-  { id: "6186753", alt: "Thai massage", className: "" },
-  { id: "6629612", alt: "Aromatherapy massage", className: "" },
-];
-
-function HeroCollage() {
-  return (
-    <div className="rise-in hidden h-[30rem] grid-cols-2 grid-rows-2 gap-4 lg:grid">
-      {HERO_PHOTOS.map((photo, index) => (
-        <div
-          key={photo.id}
-          className={`relative overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-white/10 ${photo.className}`}
-        >
-          <Image
-            src={pexelsUrl(photo.id)}
-            alt={photo.alt}
-            fill
-            priority={index === 0}
-            sizes="(min-width: 1024px) 25vw, 0px"
-            className="drift object-cover"
-            style={{ animationDelay: `-${index * 4}s` }}
-          />
-        </div>
-      ))}
     </div>
   );
 }
@@ -116,48 +42,49 @@ async function HomeContent() {
 
   return (
     <>
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-16 px-4 py-12">
-        <section id="massages" className="flex scroll-mt-6 flex-col gap-5">
-          <div>
-            <h2 className="font-display text-3xl font-semibold tracking-tight">
-              What would you like today?
-            </h2>
-            <p className="mt-1 text-muted">Tap a massage to see spas that offer it</p>
-          </div>
+      <ServiceStrip refundPercent={refund.percent} cutoffHours={refund.cutoffHours} />
+
+      <div className="flex flex-col gap-20 py-16">
+        <section id="massages" className="mx-auto flex w-full max-w-7xl scroll-mt-24 flex-col gap-8 px-4">
+          <SectionTitle title="Popular massages" subtitle="Tap a massage to see spas that offer it" />
           <div className="no-scrollbar -mx-4 flex gap-3 overflow-x-auto px-4 pt-1 pb-2 sm:mx-0 sm:grid sm:grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:gap-y-6 sm:overflow-visible sm:px-0">
-            {massageTypes.map((type, index) => (
-              <MassageTile key={type.id} type={type} index={index} />
+            {massageTypes.map((type) => (
+              <MassageTile key={type.id} type={type} />
             ))}
           </div>
         </section>
 
-        <FeaturedSpas
-          spas={featured.length > 0 ? featured : spas.slice(0, 6)}
-          title={featured.length > 0 ? "Featured spas" : "Spas to try"}
-        />
+        <div className="mx-auto w-full max-w-7xl px-4">
+          <FeaturedSpas
+            spas={featured.length > 0 ? featured : spas}
+            massageTypes={massageTypes}
+            title={featured.length > 0 ? "Featured spas" : "Spas to try"}
+          />
+        </div>
 
-        <div id="nearby" className="scroll-mt-6">
+        <div id="nearby" className="mx-auto w-full max-w-7xl scroll-mt-24 px-4">
           <NearbySpas spas={spas} />
         </div>
+
+        <PromoBanner />
+
+        <MassageMoods />
+
+        <WhyChoose refundPercent={refund.percent} cutoffHours={refund.cutoffHours} />
       </div>
-
-      <MassageMoods massageTypes={massageTypes} />
-
-      <WhyChoose refundPercent={refund.percent} cutoffHours={refund.cutoffHours} />
     </>
   );
 }
 
 function HomeSkeleton() {
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-12">
-      <div className="h-8 w-64 animate-pulse rounded-full bg-line" />
+    <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-6 px-4 py-16">
+      <div className="h-8 w-64 animate-pulse bg-line" />
       <div className="flex gap-4 overflow-hidden">
         {Array.from({ length: 6 }, (_, index) => (
           <div key={index} className="size-24 shrink-0 animate-pulse rounded-full bg-line sm:size-28" />
         ))}
       </div>
-      <div className="h-72 animate-pulse rounded-[2rem] bg-line" />
     </div>
   );
 }
@@ -170,17 +97,15 @@ function HowItWorks() {
   ];
 
   return (
-    <section className="bg-accent-soft/60">
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-14">
-        <h2 className="font-display text-3xl font-semibold tracking-tight">How Sukoonam works</h2>
-        <ol className="grid gap-5 sm:grid-cols-3">
+    <section className="border-t border-line bg-[#f7f5f2]">
+      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-16">
+        <SectionTitle title="How Sukoonam works" />
+        <ol className="grid gap-8 sm:grid-cols-3">
           {steps.map((step, index) => (
-            <li key={step.title} className="rounded-3xl bg-card p-6 shadow-sm">
-              <span className="flex size-10 items-center justify-center rounded-full bg-brand font-display text-lg font-semibold text-white">
-                {index + 1}
-              </span>
-              <p className="mt-4 text-lg font-semibold">{step.title}</p>
-              <p className="mt-1 text-muted">{step.text}</p>
+            <li key={step.title} className="flex flex-col items-center gap-2 text-center">
+              <span className="font-display text-5xl font-bold text-accent">0{index + 1}</span>
+              <p className="font-display text-xl font-medium">{step.title}</p>
+              <p className="max-w-xs text-muted">{step.text}</p>
             </li>
           ))}
         </ol>
@@ -191,23 +116,20 @@ function HowItWorks() {
 
 function PartnerBand() {
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-14">
-      <div className="relative overflow-hidden rounded-[2rem] bg-brand px-6 py-10 text-white sm:px-12">
-        <div className="pointer-events-none absolute -top-16 -right-16 size-64 rounded-full bg-accent/50 blur-3xl" />
-        <div className="relative flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="font-display text-3xl font-semibold">Own a spa?</h2>
-            <p className="mt-1 max-w-md text-white/85">
-              List your spa on Sukoonam for free and receive paid booking requests from customers nearby.
-            </p>
-          </div>
-          <Link
-            href="/partner/signup"
-            className="rounded-full bg-white px-6 py-3 font-semibold text-brand transition hover:bg-accent hover:text-white"
-          >
-            List your spa
-          </Link>
+    <section className="bg-night text-white">
+      <div className="mx-auto flex max-w-7xl flex-col items-start gap-5 px-4 py-14 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="font-display text-4xl font-semibold">Own a spa?</h2>
+          <p className="mt-2 max-w-md text-white/80">
+            List your spa on Sukoonam for free and receive paid booking requests from customers nearby.
+          </p>
         </div>
+        <Link
+          href="/partner/signup"
+          className="border border-white px-8 py-3 text-sm font-medium tracking-wider uppercase transition hover:bg-white hover:text-night"
+        >
+          List your spa
+        </Link>
       </div>
     </section>
   );

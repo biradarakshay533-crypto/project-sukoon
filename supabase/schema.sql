@@ -123,9 +123,9 @@ create table public.payments (
 -- Rules the client can change in the dashboard. Only ever has one row.
 create table public.settings (
   id                   integer primary key default 1 check (id = 1),
-  refund_cutoff_hours  integer not null default 3 check (refund_cutoff_hours >= 0),
-  refund_percent       integer not null default 90 check (refund_percent between 0 and 100),
-  spa_response_hours   integer not null default 24 check (spa_response_hours > 0)
+  refund_cutoff_hours  integer not null default 6 check (refund_cutoff_hours >= 0),
+  refund_percent       integer not null default 100 check (refund_percent between 0 and 100),
+  spa_response_minutes integer not null default 30 check (spa_response_minutes > 0)
 );
 
 insert into public.settings (id) values (1);
