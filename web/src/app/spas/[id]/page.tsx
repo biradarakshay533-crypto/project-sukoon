@@ -2,12 +2,16 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { BookingForm } from "@/components/BookingForm";
 import { SpaMapLoader } from "@/components/SpaMapLoader";
-import { formatRupees } from "@/lib/format";
+import { currentTime } from "@/lib/booking-time";
 import { getSpa } from "@/lib/spas";
+import { createClient } from "@/lib/supabase/server";
+import { getViewerRole } from "@/lib/viewer";
 
 export const metadata: Metadata = { title: "Spa | Sukoonam" };
 
@@ -27,7 +31,13 @@ export default function SpaPage({ params }: PageProps<"/spas/[id]">) {
 
 async function SpaDetails({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const spa = await getSpa(id);
+  await connection();
+  const supabase = await createClient();
+  const [spa, viewer, { data: settings }] = await Promise.all([
+    getSpa(id),
+    getViewerRole(),
+    supabase.from("settings").select("spa_response_minutes").single(),
+  ]);
 
   if (!spa) {
     notFound();
@@ -75,32 +85,23 @@ async function SpaDetails({ params }: { params: Promise<{ id: string }> }) {
 
       {spa.description && <p className="leading-relaxed">{spa.description}</p>}
 
-      <section className="flex flex-col gap-3">
-        <h2 className="text-xl font-semibold">Services</h2>
-        {spa.services.length === 0 && (
-          <p className="text-muted">This spa has not listed its services yet.</p>
-        )}
-        {spa.services.map((service) => {
-          const type = service.massage_types as unknown as { name: string } | null;
-          return (
-            <div
-              key={service.id}
-              className="flex items-start justify-between gap-4 rounded-3xl border border-line bg-card p-5 shadow-sm"
-            >
-              <div>
-                <p className="font-semibold">{service.name}</p>
-                <p className="text-sm text-muted">
-                  {[type?.name, `${service.duration_minutes} min`].filter(Boolean).join(" · ")}
-                </p>
-                {service.description && <p className="mt-2 text-sm">{service.description}</p>}
-              </div>
-              <p className="shrink-0 font-semibold">{formatRupees(service.price_paise)}</p>
-            </div>
-          );
-        })}
-        <p className="rounded-2xl bg-brand/10 px-4 py-3 text-sm text-brand-dark">
-          Online booking requests are coming soon.
-        </p>
+      <section id="book" className="flex scroll-mt-24 flex-col gap-4">
+        <h2 className="font-display text-3xl font-semibold">Book a visit</h2>
+        <BookingForm
+          services={spa.services.map((service) => ({
+            id: service.id,
+            name: service.name,
+            typeName: (service.massage_types as unknown as { name: string } | null)?.name ?? null,
+            description: service.description,
+            durationMinutes: service.duration_minutes,
+            pricePaise: service.price_paise,
+          }))}
+          hours={hours}
+          nowIso={currentTime().toISOString()}
+          viewer={viewer}
+          loginHref={`/login?next=${encodeURIComponent(`/spas/${spa.id}#book`)}`}
+          responseMinutes={settings?.spa_response_minutes ?? 30}
+        />
       </section>
 
       {spa.latitude !== null && spa.longitude !== null && (

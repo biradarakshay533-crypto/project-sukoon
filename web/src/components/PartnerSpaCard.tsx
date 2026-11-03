@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { currentTime } from "@/lib/booking-time";
 import { getPartnerContext } from "@/lib/partner";
 
 const linkStyle =
@@ -22,10 +23,15 @@ export async function PartnerSpaCard() {
     );
   }
 
-  const { count } = await supabase
-    .from("services")
-    .select("id", { count: "exact", head: true })
-    .eq("spa_id", spa.id);
+  const [{ count }, { count: waiting }] = await Promise.all([
+    supabase.from("services").select("id", { count: "exact", head: true }).eq("spa_id", spa.id),
+    supabase
+      .from("bookings")
+      .select("id", { count: "exact", head: true })
+      .eq("spa_id", spa.id)
+      .eq("status", "requested")
+      .gt("respond_by", currentTime().toISOString()),
+  ]);
 
   return (
     <div className="flex flex-col items-start gap-3">
@@ -38,6 +44,12 @@ export async function PartnerSpaCard() {
         </p>
       </div>
       <div className="flex flex-wrap gap-2">
+        <Link
+          href="/partner/bookings"
+          className="rounded-full bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-dark"
+        >
+          Booking requests{waiting ? ` (${waiting} new)` : ""}
+        </Link>
         <Link href="/partner/spa" className={linkStyle}>
           Edit spa and photos
         </Link>

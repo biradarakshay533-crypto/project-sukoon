@@ -73,6 +73,12 @@ export async function logIn(_state: FormState, formData: FormData): Promise<Form
     .eq("id", data.user.id)
     .single();
 
+  // Customers who logged in to book go back to the spa they were looking at.
+  const next = text(formData, "next");
+  if (profile?.role !== "partner" && next.startsWith("/") && !next.startsWith("//")) {
+    redirect(next);
+  }
+
   redirect(homeFor(profile?.role ?? "customer"));
 }
 
