@@ -55,10 +55,10 @@ export function Icon({ path, className = "size-10" }: { path: string; className?
 // Photo cards with a mood and the massage it leads to.
 export function MassageMoods() {
   const moods = [
-    { title: "Melt the stress away", type: "Aromatherapy Massage", photo: "6629612" },
-    { title: "Ease sore muscles", type: "Deep Tissue Massage", photo: "6188042" },
-    { title: "Rooted in tradition", type: "Ayurvedic Massage (Abhyanga)", photo: "6187852" },
-    { title: "Relax together", type: "Couples Massage", photo: "7365434" },
+    { title: "Melt the stress away", type: "Aromatherapy Massage", photo: "3757942" },
+    { title: "Ease sore muscles", type: "Deep Tissue Massage", photo: "6560288" },
+    { title: "Rooted in tradition", type: "Ayurvedic Massage (Abhyanga)", photo: "32306093" },
+    { title: "Relax together", type: "Couples Massage", photo: "7365427" },
   ];
 
   return (
@@ -99,16 +99,21 @@ export function MassageMoods() {
 export function PromoBanner() {
   return (
     <div className="mx-auto w-full max-w-7xl px-4">
-      <Link href={massageHref("Couples Massage")} className="group relative block h-56 overflow-hidden rounded-2xl sm:h-64">
-        <Image
-          src={pexelsUrl("19695981", 1920)}
-          alt=""
-          fill
-          sizes="(min-width: 1280px) 1248px, 100vw"
-          className="object-cover transition duration-1000 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-night/90 via-night/55 to-transparent" />
-        <div className="relative flex h-full flex-col justify-center gap-2 px-6 text-white sm:px-10">
+      <Link
+        href={massageHref("Couples Massage")}
+        className="group grid overflow-hidden rounded-2xl bg-night text-white sm:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]"
+      >
+        <div className="relative aspect-[3/2] overflow-hidden sm:order-last sm:aspect-auto sm:min-h-72">
+          <Image
+            src={pexelsUrl("7365442", 1400)}
+            alt=""
+            fill
+            sizes="(min-width: 640px) 55vw, 100vw"
+            className="object-cover transition duration-1000 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-night/60 to-transparent sm:bg-gradient-to-r sm:from-night sm:via-night/20 sm:to-transparent" />
+        </div>
+        <div className="flex flex-col justify-center gap-2 p-6 sm:p-10">
           <p className="font-display text-3xl leading-tight font-bold sm:text-4xl">Spa day for two</p>
           <p className="max-w-sm text-white/85">Book side-by-side couples massages at spas across Dharwad.</p>
           <span className="mt-2 self-start rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold transition group-hover:bg-brand-dark">

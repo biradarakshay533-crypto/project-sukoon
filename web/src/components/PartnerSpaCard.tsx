@@ -2,6 +2,14 @@ import Link from "next/link";
 import { currentTime } from "@/lib/booking-time";
 import { getPartnerContext } from "@/lib/partner";
 
+const KYC_LABELS: Record<string, { text: string; style: string; action: string }> = {
+  none: { text: "KYC not started", style: "bg-red-50 text-red-800", action: "Start KYC" },
+  draft: { text: "KYC not submitted yet", style: "bg-red-50 text-red-800", action: "Finish KYC" },
+  submitted: { text: "KYC under review", style: "bg-amber-50 text-amber-900", action: "View KYC" },
+  approved: { text: "KYC verified", style: "bg-green-50 text-green-800", action: "View KYC" },
+  rejected: { text: "KYC needs changes", style: "bg-red-50 text-red-800", action: "Fix KYC" },
+};
+
 const linkStyle =
   "rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-foreground transition hover:border-brand";
 
@@ -23,7 +31,7 @@ export async function PartnerSpaCard() {
     );
   }
 
-  const [{ count }, { count: waiting }] = await Promise.all([
+  const [{ count }, { count: waiting }, { data: kyc }] = await Promise.all([
     supabase.from("services").select("id", { count: "exact", head: true }).eq("spa_id", spa.id),
     supabase
       .from("bookings")
@@ -31,7 +39,9 @@ export async function PartnerSpaCard() {
       .eq("spa_id", spa.id)
       .eq("status", "requested")
       .gt("respond_by", currentTime().toISOString()),
+    supabase.from("spa_kyc").select("status").eq("spa_id", spa.id).maybeSingle(),
   ]);
+  const kycLabel = KYC_LABELS[kyc?.status ?? "none"] ?? KYC_LABELS.none;
 
   return (
     <div className="flex flex-col items-start gap-3">
@@ -43,6 +53,13 @@ export async function PartnerSpaCard() {
             : "Waiting for approval. Customers cannot see your spa yet."}
         </p>
       </div>
+      <Link
+        href="/partner/kyc"
+        className={`flex w-full items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-medium ${kycLabel.style}`}
+      >
+        <span>{kycLabel.text}</span>
+        <span className="font-semibold underline">{kycLabel.action} →</span>
+      </Link>
       <div className="flex flex-wrap gap-2">
         <Link
           href="/partner/bookings"

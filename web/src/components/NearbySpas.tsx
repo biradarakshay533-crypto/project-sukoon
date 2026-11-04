@@ -159,7 +159,7 @@ export function NearbySpas({ spas, refundPercent, cutoffHours }: NearbySpasProps
       </section>
 
       <aside className="relative hidden overflow-hidden rounded-2xl bg-night text-white lg:block">
-        <Image src={pexelsUrl("6629530", 900)} alt="" fill sizes="360px" className="object-cover opacity-60" />
+        <Image src={pexelsUrl("19641830", 900)} alt="" fill sizes="360px" className="object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-b from-night/90 via-night/60 to-night/30" />
         <div className="relative flex h-full flex-col gap-4 p-7">
           <p className="text-sm text-white/80 italic">Relax · Restore · Unwind</p>

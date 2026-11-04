@@ -9,17 +9,20 @@ const DISTANCES = [1, 3, 5, 10];
 export function HomeHero() {
   return (
     <section className="relative overflow-hidden bg-night text-white">
-      <Image
-        src={pexelsUrl("6628701", 1920)}
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-[70%_center]"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-night via-night/85 to-night/20" />
+      {/* On wide screens the photo sits on the right at a natural shape, so it is not cut into a strip. */}
+      <div className="absolute inset-y-0 right-0 w-full lg:w-[60%]">
+        <Image
+          src={pexelsUrl("7432859", 1600)}
+          alt=""
+          fill
+          priority
+          sizes="(min-width: 1024px) 60vw, 100vw"
+          className="object-cover object-[60%_center]"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-r from-night via-night/85 to-night/55 lg:via-night/90 lg:via-40% lg:to-night/0" />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col gap-4 px-4 py-9 sm:py-12">
+      <div className="relative mx-auto flex max-w-7xl flex-col justify-center gap-4 px-4 py-9 sm:py-12 lg:min-h-[420px]">
         <h1 className="rise-in max-w-2xl font-display text-[2.1rem] leading-[1.05] font-extrabold sm:text-5xl">
           Find the best <span className="text-brand">spa</span> near you
         </h1>
