@@ -55,11 +55,18 @@ export function Icon({ path, className = "size-10" }: { path: string; className?
 
 // Photo cards with a mood and the massage it leads to.
 export function MassageMoods() {
+  // Short ids are Pexels clips; full links are Pixabay clips, free under its content licence.
   const moods = [
-    { title: "Melt the stress away", type: "Aromatherapy Massage", photo: "3757942", video: "6581964-sd_640_360_24fps" },
-    { title: "Ease sore muscles", type: "Deep Tissue Massage", photo: "6560288", video: "3998264-sd_640_338_25fps" },
-    { title: "Rooted in tradition", type: "Ayurvedic Massage (Abhyanga)", photo: "32306093", video: "6628462-sd_640_338_25fps" },
-    { title: "Relax together", type: "Couples Massage", photo: "7365427", video: "6708105-sd_960_540_25fps" },
+    { title: "Melt the stress away", type: "Aromatherapy Massage", photo: "3757942", video: "https://cdn.pixabay.com/video/2022/07/20/124866-732633125_tiny.mp4" },
+    { title: "Ease sore muscles", type: "Deep Tissue Massage", photo: "6560288", video: "https://cdn.pixabay.com/video/2015/09/06/701-138504820_small.mp4" },
+    { title: "Rooted in tradition", type: "Ayurvedic Massage (Abhyanga)", photo: "32306093", video: "6187313-sd_640_360_25fps" },
+    {
+      title: "Relax together",
+      type: "Couples Massage",
+      photo: "7365427",
+      video: "https://cdn.pixabay.com/video/2023/07/21/172687-849651731_small.mp4",
+      focus: "object-[62%_center]",
+    },
   ];
 
   return (
@@ -75,9 +82,15 @@ export function MassageMoods() {
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 25vw, 70vw"
-                  className="object-cover transition duration-700 group-hover:scale-110"
+                  className={`object-cover transition duration-700 group-hover:scale-110 ${mood.video ? "" : "drift"} ${"focus" in mood ? mood.focus : ""}`}
                 />
-                <LoopVideo src={pexelsVideo(mood.video)} className="group-hover:scale-110" />
+                {mood.video && (
+                  <LoopVideo
+                    src={mood.video.startsWith("https://") ? mood.video : pexelsVideo(mood.video)}
+                    rate={0.8}
+                    className={`group-hover:scale-110 ${"focus" in mood ? mood.focus : ""}`}
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-night/80 via-night/10 to-transparent" />
                 <div className="relative flex w-full items-end justify-between gap-2 p-4 text-white">
                   <span>

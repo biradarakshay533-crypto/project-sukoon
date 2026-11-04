@@ -7,7 +7,8 @@ import { DHARWAD, distanceKm, distanceLabel } from "@/lib/distance";
 import type { Point } from "@/lib/distance";
 import { formatRupees } from "@/lib/format";
 import type { SpaSummary } from "@/lib/spas";
-import { pexelsUrl } from "@/lib/stock-photos";
+import { LoopVideo } from "@/components/LoopVideo";
+import { pexelsUrl, pexelsVideo } from "@/lib/stock-photos";
 
 const SHOWN = 5;
 
@@ -160,6 +161,7 @@ export function NearbySpas({ spas, refundPercent, cutoffHours }: NearbySpasProps
 
       <aside className="relative hidden overflow-hidden rounded-2xl bg-night text-white lg:block">
         <Image src={pexelsUrl("19641830", 900)} alt="" fill sizes="360px" className="object-cover opacity-60" />
+        <LoopVideo src={pexelsVideo("6750881-sd_640_360_25fps")} rate={0.8} />
         <div className="absolute inset-0 bg-gradient-to-b from-night/90 via-night/60 to-night/30" />
         <div className="relative flex h-full flex-col gap-4 p-7">
           <p className="text-sm text-white/80 italic">Relax · Restore · Unwind</p>

@@ -26,7 +26,7 @@ export function AuthCard({
   points = CUSTOMER_POINTS,
 }: AuthCardProps) {
   return (
-    <main className="grid flex-1 lg:grid-cols-2">
+    <main className="grid flex-1 grid-cols-[minmax(0,1fr)] lg:grid-cols-2">
       <aside className="relative hidden overflow-hidden bg-night text-white lg:block">
         <Image src={pexelsUrl(photo, 1400)} alt="" fill priority sizes="50vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-night via-night/40 to-night/10" />

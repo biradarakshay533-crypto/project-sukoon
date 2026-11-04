@@ -5,7 +5,7 @@ import { SITE } from "@/lib/site-info";
 import { pexelsUrl, pexelsVideo } from "@/lib/stock-photos";
 
 const DISTANCES = [1, 3, 5, 10];
-const HERO_VIDEO = pexelsVideo("3998269-sd_640_338_25fps");
+const HERO_VIDEO = pexelsVideo("6629858-sd_960_506_25fps");
 
 // A short photo banner with the search bar and "near me" shortcuts.
 export function HomeHero() {
@@ -50,7 +50,7 @@ export function HomeHero() {
             name="q"
             placeholder="Search spas or areas"
             aria-label="Search spas or areas"
-            className="min-w-0 flex-1 bg-transparent px-3 py-2 text-[15px] outline-none"
+            className="min-w-0 flex-1 bg-transparent px-3 py-2 text-base outline-none"
           />
           <button
             type="submit"

@@ -27,8 +27,8 @@ function UserIcon() {
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
-        <div className="flex items-center gap-3 lg:gap-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-4">
+        <div className="flex min-w-0 items-center gap-2.5 lg:gap-6">
           <MobileMenu />
           <Logo />
           <span className="hidden items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-sm font-medium md:flex">
@@ -69,14 +69,14 @@ export function SiteHeader() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-3 sm:gap-5">
+        <div className="flex shrink-0 items-center gap-2.5 sm:gap-5">
           <Link href="/login" className="flex items-center gap-2 text-sm font-medium transition hover:text-brand">
             <UserIcon />
             <span className="hidden xl:inline">Log in / Sign up</span>
           </Link>
           <Link
             href="/partner/signup"
-            className="shrink-0 whitespace-nowrap rounded-lg bg-brand px-3 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark"
+            className="shrink-0 whitespace-nowrap rounded-lg bg-brand px-2.5 py-2 text-[13px] font-semibold text-white transition hover:bg-brand-dark sm:px-3.5 sm:text-sm"
           >
             <span className="sm:hidden">Spa owner?</span>
             <span className="hidden sm:inline">For spa owners</span>
