@@ -83,7 +83,7 @@ export function PhotoManager({ spaId, photos }: PhotoManagerProps) {
       {photos.length > 0 && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {photos.map((photo) => (
-            <div key={photo.id} className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+            <div key={photo.id} className="relative aspect-[4/3] overflow-hidden rounded-xl">
               <Image
                 src={photo.url}
                 alt="Spa photo"
@@ -103,7 +103,7 @@ export function PhotoManager({ spaId, photos }: PhotoManagerProps) {
           ))}
         </div>
       )}
-      <label className="cursor-pointer self-start rounded-full border border-line bg-white px-5 py-2.5 text-sm font-medium transition hover:border-brand">
+      <label className="cursor-pointer self-start rounded-lg border border-line bg-white px-5 py-2.5 text-sm font-medium transition hover:border-brand hover:text-brand">
         {busy ? "Working..." : "Add photos"}
         <input
           type="file"

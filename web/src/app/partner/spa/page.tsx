@@ -32,18 +32,18 @@ async function SpaEditor() {
         <Link href="/partner" className="text-sm text-brand hover:underline">
           Back to dashboard
         </Link>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+        <h1 className="mt-2 font-display text-3xl font-bold">
           {spa ? "Your spa" : "Add your spa"}
         </h1>
       </div>
 
-      <section className="rounded-3xl border border-line bg-card p-6 shadow-sm">
+      <section className="rounded-2xl border border-line bg-white p-5 shadow-sm sm:p-6">
         <SpaForm spa={spa} />
       </section>
 
       {spa && (
-        <section className="rounded-3xl border border-line bg-card p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold">Photos</h2>
+        <section className="rounded-2xl border border-line bg-white p-5 shadow-sm sm:p-6">
+          <h2 className="mb-4 font-display text-lg font-semibold">Photos</h2>
           <PhotoManager
             spaId={spa.id}
             photos={(photos ?? []).map((photo) => ({

@@ -55,7 +55,7 @@ async function BookingRequests() {
         <Link href="/partner" className="text-sm text-brand hover:underline">
           Back to dashboard
         </Link>
-        <h1 className="text-3xl font-semibold tracking-tight">Booking requests</h1>
+        <h1 className="font-display text-3xl font-bold">Booking requests</h1>
         <p className="text-muted">
           Answer each request before its timer runs out. While any partner page is open, new
           requests pop up and ring until you answer them.

@@ -24,7 +24,7 @@ export async function CustomerBookings() {
 
   return (
     <div id="bookings" className="flex scroll-mt-24 flex-col gap-4 text-foreground">
-      <h2 className="text-lg font-semibold">My bookings</h2>
+      <h2 className="font-display text-xl font-bold">My bookings</h2>
       {waiting > 0 && <LiveRefresh />}
 
       {bookings.length === 0 ? (
@@ -32,7 +32,7 @@ export async function CustomerBookings() {
           <p>You have no bookings yet.</p>
           <Link
             href="/spas"
-            className="bg-night px-6 py-3 text-sm font-medium tracking-wider text-white uppercase transition hover:bg-accent"
+            className="rounded-lg bg-brand px-6 py-3 font-semibold text-white transition hover:bg-brand-dark"
           >
             Find a spa
           </Link>

@@ -18,7 +18,7 @@ export function BookingCard({ booking, stage, nowIso, title, children }: Booking
   const label = STAGE_LABELS[stage] ?? STAGE_LABELS.expired;
 
   return (
-    <li className="flex flex-col gap-3 border border-line bg-white p-5">
+    <li className="flex flex-col gap-3 rounded-xl border border-line bg-white p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <p className="font-semibold text-foreground">{title}</p>
@@ -26,9 +26,9 @@ export function BookingCard({ booking, stage, nowIso, title, children }: Booking
             {booking.service_name} · {booking.duration_minutes} min · {formatRupees(booking.price_paise)}
           </p>
         </div>
-        <span className={`px-2.5 py-1 text-xs font-medium ${label.style}`}>{label.label}</span>
+        <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${label.style}`}>{label.label}</span>
       </div>
-      <p className="font-display text-lg text-foreground">{formatBookingTime(booking.starts_at)}</p>
+      <p className="font-display text-lg font-semibold text-foreground">{formatBookingTime(booking.starts_at)}</p>
       {stage === "waiting" && booking.respond_by && (
         <p className="text-sm text-amber-900">
           Answer due: <Countdown deadline={booking.respond_by} startedAt={nowIso} />

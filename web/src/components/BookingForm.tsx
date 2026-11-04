@@ -26,7 +26,7 @@ type BookingFormProps = {
 };
 
 const chip =
-  "border px-4 py-2.5 text-sm font-medium transition has-checked:border-night has-checked:bg-night has-checked:text-white";
+  "rounded-lg border px-4 py-2.5 text-sm font-medium transition hover:border-brand has-checked:border-brand has-checked:bg-brand has-checked:text-white";
 
 // Pick a service, a day and a time, then send the request to the spa.
 export function BookingForm({ services, hours, nowIso, viewer, loginHref, responseMinutes }: BookingFormProps) {
@@ -55,7 +55,7 @@ export function BookingForm({ services, hours, nowIso, viewer, loginHref, respon
         {services.map((item) => (
           <label
             key={item.id}
-            className="flex cursor-pointer items-start justify-between gap-4 border border-line p-5 transition has-checked:border-night has-checked:ring-1 has-checked:ring-night"
+            className="flex cursor-pointer items-start justify-between gap-4 rounded-xl border border-line bg-white p-5 transition has-checked:border-brand has-checked:ring-1 has-checked:ring-brand"
           >
             <span className="flex gap-3">
               <input
@@ -64,7 +64,7 @@ export function BookingForm({ services, hours, nowIso, viewer, loginHref, respon
                 value={item.id}
                 checked={item.id === serviceId}
                 onChange={() => setServiceId(item.id)}
-                className="mt-1 accent-night"
+                className="mt-1 accent-brand"
               />
               <span>
                 <span className="block font-semibold">{item.name}</span>
@@ -128,11 +128,11 @@ export function BookingForm({ services, hours, nowIso, viewer, loginHref, respon
           name="note"
           rows={2}
           maxLength={500}
-          className="border border-line bg-white px-4 py-3 text-base font-normal outline-none transition focus:border-night"
+          className="rounded-xl border border-line bg-white px-4 py-3 text-base font-normal outline-none transition focus:border-brand"
         />
       </label>
 
-      <div className="flex flex-col gap-3 bg-accent-soft p-5">
+      <div className="flex flex-col gap-3 rounded-xl bg-accent-soft p-5">
         <p className="text-sm">
           The spa answers within <strong>{responseMinutes} minutes</strong>, or before your time if
           that is sooner. If it does not answer, the request closes on its own.
@@ -141,7 +141,7 @@ export function BookingForm({ services, hours, nowIso, viewer, loginHref, respon
         {state.success ? (
           <Link
             href="/account"
-            className="bg-night px-8 py-4 text-center text-sm font-medium tracking-wider text-white uppercase transition hover:bg-accent"
+            className="rounded-lg bg-brand px-8 py-4 text-center font-semibold text-white transition hover:bg-brand-dark"
           >
             Go to my bookings
           </Link>
@@ -149,14 +149,14 @@ export function BookingForm({ services, hours, nowIso, viewer, loginHref, respon
           <button
             type="submit"
             disabled={pending || !chosenTime}
-            className="bg-night px-8 py-4 text-sm font-medium tracking-wider text-white uppercase transition hover:bg-accent disabled:opacity-50"
+            className="rounded-lg bg-brand px-8 py-4 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
           >
             {pending ? "Sending request..." : service ? `Request booking · ${formatRupees(service.pricePaise)}` : "Request booking"}
           </button>
         ) : viewer === "guest" ? (
           <Link
             href={loginHref}
-            className="bg-night px-8 py-4 text-center text-sm font-medium tracking-wider text-white uppercase transition hover:bg-accent"
+            className="rounded-lg bg-brand px-8 py-4 text-center font-semibold text-white transition hover:bg-brand-dark"
           >
             Log in to request a booking
           </Link>

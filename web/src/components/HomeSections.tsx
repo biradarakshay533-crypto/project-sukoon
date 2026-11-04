@@ -56,9 +56,9 @@ export function Icon({ path, className = "size-10" }: { path: string; className?
 // Photo cards with a mood and the massage it leads to.
 export function MassageMoods() {
   const moods = [
-    { title: "Melt the stress away", type: "Aromatherapy Massage", photo: "3757942", video: "6750888-sd_640_360_25fps" },
-    { title: "Ease sore muscles", type: "Deep Tissue Massage", photo: "6560288", video: "6187081-sd_640_360_25fps" },
-    { title: "Rooted in tradition", type: "Ayurvedic Massage (Abhyanga)", photo: "32306093", video: "6628412-sd_960_506_25fps" },
+    { title: "Melt the stress away", type: "Aromatherapy Massage", photo: "3757942", video: "6581964-sd_640_360_24fps" },
+    { title: "Ease sore muscles", type: "Deep Tissue Massage", photo: "6560288", video: "3998264-sd_640_338_25fps" },
+    { title: "Rooted in tradition", type: "Ayurvedic Massage (Abhyanga)", photo: "32306093", video: "6628462-sd_640_338_25fps" },
     { title: "Relax together", type: "Couples Massage", photo: "7365427", video: "6708105-sd_960_540_25fps" },
   ];
 

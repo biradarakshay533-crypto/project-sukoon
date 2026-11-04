@@ -35,13 +35,13 @@ async function ServiceManager() {
         <Link href="/partner" className="text-sm text-brand hover:underline">
           Back to dashboard
         </Link>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">Your services</h1>
+        <h1 className="mt-2 font-display text-3xl font-bold">Your services</h1>
       </div>
 
       {services?.map((service) => (
         <details
           key={service.id}
-          className="rounded-3xl border border-line bg-card p-6 shadow-sm"
+          className="rounded-2xl border border-line bg-white p-5 shadow-sm sm:p-6"
         >
           <summary className="flex cursor-pointer items-center justify-between gap-4">
             <span>
@@ -65,8 +65,8 @@ async function ServiceManager() {
         </details>
       ))}
 
-      <section className="rounded-3xl border border-line bg-card p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold">Add a service</h2>
+      <section className="rounded-2xl border border-line bg-white p-5 shadow-sm sm:p-6">
+        <h2 className="mb-4 font-display text-lg font-semibold">Add a service</h2>
         <ServiceForm spaId={spa.id} massageTypes={massageTypes ?? []} />
       </section>
     </div>

@@ -5,13 +5,15 @@ import { SITE } from "@/lib/site-info";
 import { pexelsUrl, pexelsVideo } from "@/lib/stock-photos";
 
 const DISTANCES = [1, 3, 5, 10];
+const HERO_VIDEO = pexelsVideo("3998269-sd_640_338_25fps");
 
 // A short photo banner with the search bar and "near me" shortcuts.
 export function HomeHero() {
   return (
     <section className="relative overflow-hidden bg-night text-white">
-      {/* On wide screens the photo sits on the right at a natural shape, so it is not cut into a strip. */}
-      <div className="absolute inset-y-0 right-0 w-full lg:w-[60%]">
+      {/* Phones: the video sits on top, with the text below it. Wide screens: the
+          video fills the right side at a natural shape, so it is not cut into a strip. */}
+      <div className="relative aspect-[16/10] w-full sm:aspect-[16/7] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-[60%]">
         <Image
           src={pexelsUrl("7432859", 1600)}
           alt=""
@@ -20,11 +22,12 @@ export function HomeHero() {
           sizes="(min-width: 1024px) 60vw, 100vw"
           className="object-cover object-[60%_center]"
         />
-        <LoopVideo src={pexelsVideo("6629856-sd_960_506_25fps")} />
+        <LoopVideo src={HERO_VIDEO} />
+        <div className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-transparent lg:hidden" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-night via-night/85 to-night/55 lg:via-night/90 lg:via-40% lg:to-night/0" />
+      <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-night via-night/90 via-40% to-night/0 lg:block" />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col justify-center gap-4 px-4 py-9 sm:py-12 lg:min-h-[420px]">
+      <div className="relative mx-auto -mt-6 flex max-w-7xl flex-col justify-center gap-4 px-4 pb-8 sm:-mt-10 lg:mt-0 lg:min-h-[440px] lg:py-12">
         <h1 className="rise-in max-w-2xl font-display text-[2.1rem] leading-[1.05] font-extrabold sm:text-5xl">
           Find the best <span className="text-brand">spa</span> near you
         </h1>

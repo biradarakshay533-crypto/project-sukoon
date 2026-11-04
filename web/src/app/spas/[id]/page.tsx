@@ -72,7 +72,7 @@ async function SpaDetails({ params }: { params: Promise<{ id: string }> }) {
       )}
 
       <div>
-        <h1 className="font-display text-4xl font-semibold tracking-tight">{spa.name}</h1>
+        <h1 className="font-display text-4xl font-bold">{spa.name}</h1>
         <p className="mt-1 text-muted">
           {spa.address}, {spa.city}
         </p>

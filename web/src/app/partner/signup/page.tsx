@@ -7,7 +7,13 @@ export const metadata: Metadata = { title: "Partner sign up | Sukoonam" };
 
 export default function PartnerSignupPage() {
   return (
-    <AuthCard title="List your spa" subtitle="Create your spa partner account.">
+    <AuthCard
+      title="List your spa"
+      subtitle="Create your spa partner account."
+      photo="19641830"
+      tagline="Grow your spa with Sukoonam"
+      points={["Free to list your spa", "Paid booking requests from nearby customers", "Accept or decline in one tap"]}
+    >
       <SignupForm role="partner" />
       <p className="mt-6 text-sm text-muted">
         Already a partner?{" "}

@@ -11,7 +11,7 @@ const KYC_LABELS: Record<string, { text: string; style: string; action: string }
 };
 
 const linkStyle =
-  "rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-foreground transition hover:border-brand";
+  "rounded-lg border border-line bg-white px-4 py-2.5 text-sm font-medium text-foreground transition hover:border-brand hover:text-brand";
 
 // The partner's spa status and links, shown on their dashboard.
 export async function PartnerSpaCard() {
@@ -23,7 +23,7 @@ export async function PartnerSpaCard() {
         <p>You have not added your spa yet.</p>
         <Link
           href="/partner/spa"
-          className="rounded-full bg-brand px-5 py-2.5 font-medium text-white transition hover:bg-brand-dark"
+          className="rounded-lg bg-brand px-5 py-2.5 font-semibold text-white transition hover:bg-brand-dark"
         >
           Add your spa
         </Link>
@@ -46,7 +46,7 @@ export async function PartnerSpaCard() {
   return (
     <div className="flex flex-col items-start gap-3">
       <div>
-        <p className="text-lg font-semibold text-foreground">{spa.name}</p>
+        <p className="font-display text-xl font-bold text-foreground">{spa.name}</p>
         <p className="text-sm">
           {spa.is_approved
             ? "Approved and visible to customers"
@@ -63,7 +63,7 @@ export async function PartnerSpaCard() {
       <div className="flex flex-wrap gap-2">
         <Link
           href="/partner/bookings"
-          className="rounded-full bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-dark"
+          className="rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
         >
           Booking requests{waiting ? ` (${waiting} new)` : ""}
         </Link>
