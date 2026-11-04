@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
-/* Sukoonam colours: clean white, near-black ink, warm earth brown
-   and a soft pale blue, in the style the client chose. */
+/* Sukoonam colours: white, a bold spa red and a warm candle-lit dark,
+   in the style the client chose. */
 :root {
   --background: #ffffff;
-  --foreground: #111d2d;
-  --brand: #111d2d;
-  --brand-dark: #000000;
-  --accent: #4a3f2f;
-  --accent-soft: #e4eef5;
-  --muted: #5b6472;
+  --foreground: #1c1917;
+  --brand: #dc1f32;
+  --brand-dark: #b0172a;
+  --accent: #dc1f32;
+  --accent-soft: #fdeef0;
+  --muted: #625b57;
   --card: #ffffff;
-  --line: #e7e5e1;
-  --night: #111d2d;
+  --line: #eee8e5;
+  --night: #1c1210;
 }
 
 @theme inline {
@@ -28,19 +28,13 @@
   --color-night: var(--night);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-oswald);
+  --font-display: var(--font-poppins);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-}
-
-/* Condensed uppercase headings. */
-.font-display {
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
 }
 
 @keyframes rise-in {
@@ -72,18 +66,19 @@ body {
   animation: drift 14s ease-in-out infinite alternate;
 }
 
-/* The offer bar text scrolling sideways. */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
+/* A soft pulse for the spa's new-request popup. */
+@keyframes alert-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(220 31 50 / 0.55);
   }
-  to {
-    transform: translateX(-50%);
+  50% {
+    box-shadow: 0 0 0 14px rgb(220 31 50 / 0);
   }
 }
 
-.marquee {
-  animation: marquee 30s linear infinite;
+.alert-pulse {
+  animation: alert-pulse 1.4s ease-out infinite;
 }
 
 /* Rows that scroll sideways on phones, without a visible scrollbar. */
@@ -98,7 +93,7 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .rise-in,
   .drift,
-  .marquee {
+  .alert-pulse {
     animation: none;
   }
 }

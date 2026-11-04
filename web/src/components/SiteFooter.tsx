@@ -29,11 +29,11 @@ const COLUMNS = [
   },
 ];
 
-const headingStyle = "font-display text-lg font-semibold tracking-wider text-white";
+const headingStyle = "font-display text-base font-semibold text-white";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto bg-accent text-white/80">
+    <footer className="mt-auto bg-night text-white/80">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-4 py-14 lg:grid-cols-4">
         {COLUMNS.map((column) => (
           <nav key={column.title} className="flex flex-col gap-3 border-l border-white/20 pl-4">
@@ -65,7 +65,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-white/20">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-sm sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-display text-xl font-semibold tracking-[0.18em] text-white">Sukoonam</p>
+          <p className="font-display text-xl font-bold text-white">Sukoonam</p>
           <p>© 2026 Sukoonam. All rights reserved.</p>
         </div>
       </div>

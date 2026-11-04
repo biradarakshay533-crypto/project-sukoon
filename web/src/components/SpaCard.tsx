@@ -12,8 +12,8 @@ type SpaCardProps = {
 // The photo card used wherever a spa is listed.
 export function SpaCard({ spa, distanceLabel, priority = false }: SpaCardProps) {
   return (
-    <Link href={`/spas/${spa.id}`} className="group block">
-      <div className="relative aspect-[4/5] overflow-hidden bg-line">
+    <Link href={`/spas/${spa.id}`} className="group block overflow-hidden rounded-xl border border-line bg-white shadow-sm transition hover:shadow-md">
+      <div className="relative aspect-[4/3] overflow-hidden bg-line">
         {spa.photoUrl && (
           <Image
             src={spa.photoUrl}
@@ -25,24 +25,23 @@ export function SpaCard({ spa, distanceLabel, priority = false }: SpaCardProps) 
           />
         )}
         {spa.isFeatured && (
-          <span className="absolute top-0 left-0 bg-accent px-2.5 py-1 text-[11px] font-medium tracking-wider text-white uppercase">
+          <span className="absolute top-2 left-2 rounded bg-brand px-2 py-0.5 text-[11px] font-semibold text-white">
             Featured
           </span>
         )}
-        {distanceLabel && (
-          <span className="absolute top-2 right-2 bg-white/95 px-2 py-0.5 text-xs font-medium">
-            {distanceLabel}
-          </span>
-        )}
       </div>
-      <div className="flex flex-col gap-0.5 pt-3">
-        <p className="truncate text-sm font-medium sm:text-base">{spa.name}</p>
+      <div className="flex flex-col gap-0.5 p-3">
+        <p className="truncate font-display text-sm font-semibold group-hover:text-brand sm:text-base">{spa.name}</p>
+        {distanceLabel && <p className="truncate text-xs font-semibold text-brand sm:text-sm">{distanceLabel}</p>}
         <p className="truncate text-xs text-muted sm:text-sm">
           {spa.city}
           {spa.shortestMinutes && ` · ${spa.shortestMinutes} min+`}
         </p>
         {spa.lowestPricePaise && (
-          <p className="text-sm font-semibold sm:text-base">From {formatRupees(spa.lowestPricePaise)}</p>
+          <p className="text-sm sm:text-base">
+            <span className="text-xs text-muted">From </span>
+            <span className="font-bold text-brand">{formatRupees(spa.lowestPricePaise)}</span>
+          </p>
         )}
       </div>
     </Link>

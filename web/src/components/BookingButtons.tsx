@@ -17,7 +17,7 @@ export function AnswerButtons({ bookingId }: { bookingId: string }) {
           name="answer"
           value="accept"
           disabled={pending}
-          className="bg-night px-4 py-3 text-sm font-medium tracking-wider text-white uppercase transition hover:bg-accent disabled:opacity-50"
+          className="rounded-lg bg-green-700 px-4 py-3.5 font-semibold text-white transition hover:bg-green-800 disabled:opacity-50"
         >
           Accept
         </button>
@@ -26,7 +26,7 @@ export function AnswerButtons({ bookingId }: { bookingId: string }) {
           name="answer"
           value="decline"
           disabled={pending}
-          className="border border-night px-4 py-3 text-sm font-medium tracking-wider uppercase transition hover:bg-line disabled:opacity-50"
+          className="rounded-lg border-2 border-line px-4 py-3.5 font-semibold transition hover:border-brand hover:text-brand disabled:opacity-50"
         >
           Decline
         </button>

@@ -5,7 +5,6 @@ import type { ReactNode } from "react";
 import { BookingCard } from "@/components/BookingCard";
 import { AnswerButtons } from "@/components/BookingButtons";
 import { DashboardShell } from "@/components/DashboardShell";
-import { LiveRefresh } from "@/components/LiveRefresh";
 import { currentTime } from "@/lib/booking-time";
 import { BOOKING_COLUMNS, bookingStage } from "@/lib/booking-status";
 import type { BookingRow } from "@/lib/booking-status";
@@ -58,10 +57,9 @@ async function BookingRequests() {
         </Link>
         <h1 className="text-3xl font-semibold tracking-tight">Booking requests</h1>
         <p className="text-muted">
-          Answer each request before its timer runs out. This page checks for new requests every
-          15 seconds.
+          Answer each request before its timer runs out. While any partner page is open, new
+          requests pop up and ring until you answer them.
         </p>
-        <LiveRefresh waitingCount={waiting.length} withAlerts />
       </div>
 
       <Section title={`New requests (${waiting.length})`} empty="No requests waiting right now.">

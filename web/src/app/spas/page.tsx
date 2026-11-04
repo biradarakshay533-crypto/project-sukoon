@@ -30,7 +30,8 @@ async function SpaList({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { q, type } = await searchParams;
+  const { q, type, near, within } = await searchParams;
+  const radius = Number(within);
   const { spas, massageTypes } = await getApprovedSpas();
   // "type" may be a massage type's id or its name.
   const match = typeof type === "string" ? massageTypes.find((t) => t.id === type || t.name === type) : null;
@@ -41,6 +42,8 @@ async function SpaList({
       massageTypes={massageTypes}
       initialQuery={typeof q === "string" ? q : ""}
       initialTypeId={match?.id ?? null}
+      initialRadius={[1, 3, 5, 10].includes(radius) ? radius : null}
+      startNearMe={near === "1" || [1, 3, 5, 10].includes(radius)}
     />
   );
 }

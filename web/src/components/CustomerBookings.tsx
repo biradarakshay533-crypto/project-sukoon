@@ -25,7 +25,7 @@ export async function CustomerBookings() {
   return (
     <div id="bookings" className="flex scroll-mt-24 flex-col gap-4 text-foreground">
       <h2 className="text-lg font-semibold">My bookings</h2>
-      {waiting > 0 && <LiveRefresh waitingCount={waiting} />}
+      {waiting > 0 && <LiveRefresh />}
 
       {bookings.length === 0 ? (
         <div className="flex flex-col items-start gap-3 text-muted">

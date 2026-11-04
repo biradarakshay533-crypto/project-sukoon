@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
+import { SectionTitle } from "@/components/HomeSections";
 import { SpaCard } from "@/components/SpaCard";
 import type { MassageType, SpaSummary } from "@/lib/spas";
 
@@ -26,16 +26,16 @@ export function FeaturedSpas({
   // Only offer tabs that would show at least one spa.
   const tabs = massageTypes.filter((type) => spas.some((spa) => spa.massageTypeIds.includes(type.id)));
   const shown = spas.filter((spa) => !typeId || spa.massageTypeIds.includes(typeId)).slice(0, SHOWN);
-  const tabStyle = "shrink-0 border px-4 py-1.5 text-sm transition";
+  const tabStyle = "shrink-0 rounded-full border px-4 py-1.5 text-sm font-medium transition";
 
   return (
-    <section className="flex flex-col items-center gap-6">
-      <h2 className="font-display text-3xl font-semibold sm:text-4xl">{title}</h2>
-      <div className="no-scrollbar -mx-4 flex max-w-full items-center gap-2 overflow-x-auto px-4">
+    <section className="flex flex-col gap-4">
+      <SectionTitle title={title} action={{ label: "View all", href: "/spas" }} />
+      <div className="no-scrollbar -mx-4 flex max-w-full items-center gap-2 overflow-x-auto px-4 sm:mx-0 sm:px-0">
         <button
           type="button"
           onClick={() => setTypeId(null)}
-          className={`${tabStyle} ${!typeId ? "border-night bg-night text-white" : "border-line text-muted hover:text-foreground"}`}
+          className={`${tabStyle} ${!typeId ? "border-brand bg-brand text-white" : "border-line text-muted hover:border-brand hover:text-brand"}`}
         >
           All
         </button>
@@ -44,17 +44,11 @@ export function FeaturedSpas({
             key={type.id}
             type="button"
             onClick={() => setTypeId(type.id)}
-            className={`${tabStyle} ${type.id === typeId ? "border-night bg-night text-white" : "border-line text-muted hover:text-foreground"}`}
+            className={`${tabStyle} ${type.id === typeId ? "border-brand bg-brand text-white" : "border-line text-muted hover:border-brand hover:text-brand"}`}
           >
             {type.name.replace(" Massage", "")}
           </button>
         ))}
-        <Link
-          href="/spas"
-          className="ml-2 shrink-0 border-b-2 border-night text-sm font-semibold tracking-wider uppercase"
-        >
-          View all
-        </Link>
       </div>
       <ul className="grid w-full grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
         {shown.map((spa, index) => (

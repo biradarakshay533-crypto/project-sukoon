@@ -11,6 +11,7 @@ export type SpaSummary = {
   isFeatured: boolean;
   photoUrl: string | null;
   massageTypeIds: string[];
+  massageTypeNames: string[];
   lowestPricePaise: number | null;
   shortestMinutes: number | null;
 };
@@ -53,9 +54,14 @@ export async function getApprovedSpas() {
     supabase.from("settings").select().single(),
   ]);
 
+  const typeNames = new Map((types ?? []).map((type) => [type.id as string, type.name as string]));
+
   const summaries: SpaSummary[] = (spas ?? []).map((spa) => {
     const photos = byPosition((spa.spa_photos ?? []) as PhotoRow[]);
     const services = (spa.services ?? []) as ServiceRow[];
+    const typeIds = [
+      ...new Set(services.map((service) => service.massage_type_id).filter((id) => id !== null)),
+    ];
 
     return {
       id: spa.id,
@@ -66,9 +72,8 @@ export async function getApprovedSpas() {
       longitude: spa.longitude,
       isFeatured: spa.is_featured === true,
       photoUrl: photos[0] ? photoUrl(supabase, photos[0].storage_path) : null,
-      massageTypeIds: [
-        ...new Set(services.map((service) => service.massage_type_id).filter((id) => id !== null)),
-      ],
+      massageTypeIds: typeIds,
+      massageTypeNames: typeIds.map((id) => typeNames.get(id)).filter((name) => name !== undefined),
       lowestPricePaise: services.length
         ? Math.min(...services.map((service) => service.price_paise))
         : null,
