@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { LoopVideo } from "@/components/LoopVideo";
 import { SITE } from "@/lib/site-info";
-import { pexelsUrl } from "@/lib/stock-photos";
+import { pexelsUrl, pexelsVideo } from "@/lib/stock-photos";
 
 const DISTANCES = [1, 3, 5, 10];
 
@@ -19,6 +20,7 @@ export function HomeHero() {
           sizes="(min-width: 1024px) 60vw, 100vw"
           className="object-cover object-[60%_center]"
         />
+        <LoopVideo src={pexelsVideo("6629856-sd_960_506_25fps")} />
       </div>
       <div className="absolute inset-0 bg-gradient-to-r from-night via-night/85 to-night/55 lg:via-night/90 lg:via-40% lg:to-night/0" />
 

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { LoopVideo } from "@/components/LoopVideo";
 import { massageHref } from "@/lib/massage-names";
-import { pexelsUrl } from "@/lib/stock-photos";
+import { pexelsUrl, pexelsVideo } from "@/lib/stock-photos";
 
 type SectionTitleProps = {
   title: string;
@@ -55,10 +56,10 @@ export function Icon({ path, className = "size-10" }: { path: string; className?
 // Photo cards with a mood and the massage it leads to.
 export function MassageMoods() {
   const moods = [
-    { title: "Melt the stress away", type: "Aromatherapy Massage", photo: "3757942" },
-    { title: "Ease sore muscles", type: "Deep Tissue Massage", photo: "6560288" },
-    { title: "Rooted in tradition", type: "Ayurvedic Massage (Abhyanga)", photo: "32306093" },
-    { title: "Relax together", type: "Couples Massage", photo: "7365427" },
+    { title: "Melt the stress away", type: "Aromatherapy Massage", photo: "3757942", video: "6750888-sd_640_360_25fps" },
+    { title: "Ease sore muscles", type: "Deep Tissue Massage", photo: "6560288", video: "6187081-sd_640_360_25fps" },
+    { title: "Rooted in tradition", type: "Ayurvedic Massage (Abhyanga)", photo: "32306093", video: "6628412-sd_960_506_25fps" },
+    { title: "Relax together", type: "Couples Massage", photo: "7365427", video: "6708105-sd_960_540_25fps" },
   ];
 
   return (
@@ -68,7 +69,7 @@ export function MassageMoods() {
         {moods.map((mood) => (
           <li key={mood.title} className="w-[70%] shrink-0 snap-start sm:w-[45%] lg:w-auto">
             <Link href={massageHref(mood.type)} className="group block overflow-hidden rounded-xl">
-              <div className="relative flex aspect-[4/3] items-end overflow-hidden">
+              <div className="relative flex aspect-[4/5] items-end overflow-hidden sm:aspect-[4/3] lg:aspect-[4/5]">
                 <Image
                   src={pexelsUrl(mood.photo)}
                   alt=""
@@ -76,6 +77,7 @@ export function MassageMoods() {
                   sizes="(min-width: 1024px) 25vw, 70vw"
                   className="object-cover transition duration-700 group-hover:scale-110"
                 />
+                <LoopVideo src={pexelsVideo(mood.video)} className="group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-night/80 via-night/10 to-transparent" />
                 <div className="relative flex w-full items-end justify-between gap-2 p-4 text-white">
                   <span>

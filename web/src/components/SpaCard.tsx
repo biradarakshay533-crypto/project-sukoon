@@ -35,7 +35,6 @@ export function SpaCard({ spa, distanceLabel, priority = false }: SpaCardProps) 
         {distanceLabel && <p className="truncate text-xs font-semibold text-brand sm:text-sm">{distanceLabel}</p>}
         <p className="truncate text-xs text-muted sm:text-sm">
           {spa.city}
-          {spa.shortestMinutes && ` · ${spa.shortestMinutes} min+`}
         </p>
         {spa.lowestPricePaise && (
           <p className="text-sm sm:text-base">
