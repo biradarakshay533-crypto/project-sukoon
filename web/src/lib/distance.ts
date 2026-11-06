@@ -11,9 +11,6 @@ export function distanceKm(a: Point, b: Point) {
   return 6371 * 2 * Math.asin(Math.sqrt(h));
 }
 
-// The centre of Dharwad, used when we do not know where the visitor is.
-export const DHARWAD: Point = { latitude: 15.4589, longitude: 75.0078 };
-
 // A rough time to get there in city traffic. Roads are about 1.3 times
 // longer than a straight line, at around 25 km/h, plus a few minutes to park.
 export function travelMinutes(km: number) {

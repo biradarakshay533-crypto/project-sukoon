@@ -11,7 +11,7 @@ export default function AboutPage() {
       intro="Sukoon means peace. We help you find it at a spa near you."
     >
       <p>
-        Sukoonam is an online spa booking platform, starting in Dharwad. We bring local spas
+        Sukoonam is an online spa booking platform, starting in Hubballi and Dharwad. We bring local spas
         together in one place so you can compare their massages and prices, see where they are on
         a map, and send a booking request in under a minute.
       </p>

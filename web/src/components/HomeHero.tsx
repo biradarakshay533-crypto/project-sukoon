@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { CityName } from "@/components/CityPicker";
 import { LoopVideo } from "@/components/LoopVideo";
-import { SITE } from "@/lib/site-info";
 import { pexelsUrl, pexelsVideo } from "@/lib/stock-photos";
 
 const DISTANCES = [1, 3, 5, 10];
@@ -32,7 +32,7 @@ export function HomeHero() {
           Find the best <span className="text-brand">spa</span> near you
         </h1>
         <p className="rise-in max-w-md text-white/85 [animation-delay:80ms]">
-          Book a massage at approved spas across Dharwad. Pay only if the spa accepts.
+          Book a massage at approved spas across Hubballi and Dharwad. Pay only if the spa accepts.
         </p>
 
         <form
@@ -43,7 +43,7 @@ export function HomeHero() {
             <svg viewBox="0 0 24 24" fill="currentColor" className="size-4 text-brand" aria-hidden="true">
               <path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z" />
             </svg>
-            {SITE.city.split(",")[0]}
+            <CityName />
           </span>
           <input
             type="search"

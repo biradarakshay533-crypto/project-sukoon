@@ -5,11 +5,12 @@ import { saveSpa } from "@/lib/spa-actions";
 import {
   FormField,
   FormMessage,
+  SelectField,
   SubmitButton,
   TextAreaField,
 } from "@/components/FormField";
 import { LocationPickerLoader } from "@/components/SpaMapLoader";
-import { DHARWAD } from "@/lib/distance";
+import { CITIES, cityByName } from "@/lib/cities";
 import type { Point } from "@/lib/distance";
 
 type SpaFormProps = {
@@ -29,6 +30,9 @@ type SpaFormProps = {
 export function SpaForm({ spa }: SpaFormProps) {
   const [state, action, pending] = useActionState(saveSpa, {});
   const [locationNote, setLocationNote] = useState("");
+  const startCity = cityByName(spa?.city);
+  // Before a pin is placed, the map shows the chosen city.
+  const [cityCentre, setCityCentre] = useState<Point>(startCity.centre);
   const [point, setPoint] = useState<Point | null>(
     spa?.latitude != null && spa.longitude != null ? { latitude: spa.latitude, longitude: spa.longitude } : null,
   );
@@ -64,7 +68,13 @@ export function SpaForm({ spa }: SpaFormProps) {
         defaultValue={spa?.description ?? ""}
       />
       <TextAreaField label="Address" name="address" defaultValue={spa?.address} required />
-      <FormField label="City" name="city" defaultValue={spa?.city ?? "Dharwad"} required />
+      <SelectField label="City" name="city" defaultValue={startCity.name} onChange={(name) => setCityCentre(cityByName(name).centre)} required>
+        {CITIES.map((option) => (
+          <option key={option.id} value={option.name}>
+            {option.name}
+          </option>
+        ))}
+      </SelectField>
       <FormField
         label="Spa mobile number"
         name="phone"
@@ -96,7 +106,7 @@ export function SpaForm({ spa }: SpaFormProps) {
         <p className="text-sm font-medium">Spa location on the map</p>
         <p className="-mt-1 text-xs text-muted">Tap the map or drag the red pin to your spa&apos;s front door.</p>
         <div className="h-72 overflow-hidden rounded-xl border border-line">
-          <LocationPickerLoader point={point ?? DHARWAD} onPick={pick} />
+          <LocationPickerLoader point={point ?? cityCentre} onPick={pick} />
         </div>
         <input type="hidden" name="latitude" value={point?.latitude ?? ""} />
         <input type="hidden" name="longitude" value={point?.longitude ?? ""} />

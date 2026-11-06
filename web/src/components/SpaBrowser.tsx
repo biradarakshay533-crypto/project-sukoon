@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { SpaCard } from "@/components/SpaCard";
 import { SpaMapLoader } from "@/components/SpaMapLoader";
-import { DHARWAD, distanceKm, distanceLabel } from "@/lib/distance";
+import { useCity } from "@/lib/cities";
+import { distanceKm, distanceLabel } from "@/lib/distance";
 import type { Point } from "@/lib/distance";
 import { formatRupees } from "@/lib/format";
 import type { MassageType, SpaSummary } from "@/lib/spas";
@@ -18,6 +19,7 @@ type SpaBrowserProps = {
 };
 
 const RADII = [1, 3, 5, 10];
+const noLocation = "We could not get your location, so distances are from the city centre.";
 const chipStyle = "shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition";
 const chipOn = "border-brand bg-brand text-white";
 const chipOff = "border-line bg-card hover:border-brand hover:text-brand";
@@ -36,6 +38,7 @@ export function SpaBrowser({
   const [view, setView] = useState<"list" | "map">("list");
   const [you, setYou] = useState<Point | null>(null);
   const [locationNote, setLocationNote] = useState(startNearMe ? "Finding spas near you..." : "");
+  const city = useCity();
 
   // Arriving from "Near me" or "Within 3 km" asks for the location at once.
   useEffect(() => {
@@ -47,13 +50,13 @@ export function SpaBrowser({
         setYou({ latitude: coords.latitude, longitude: coords.longitude });
         setLocationNote("Showing the nearest spas first. Times are approximate.");
       },
-      () => setLocationNote("We could not get your location, so distances are from Dharwad centre."),
+      () => setLocationNote(noLocation),
     );
   }, [startNearMe]);
 
   const results = useMemo(() => {
     const words = query.trim().toLowerCase();
-    const from = you ?? DHARWAD;
+    const from = you ?? city.centre;
     const matches = spas
       .filter((spa) => !typeId || spa.massageTypeIds.includes(typeId))
       .filter(
@@ -71,7 +74,7 @@ export function SpaBrowser({
       .filter((spa) => radius === null || (spa.distance !== null && spa.distance <= radius));
 
     return matches.sort((a, b) => (a.distance ?? Infinity) - (b.distance ?? Infinity));
-  }, [spas, query, typeId, radius, you]);
+  }, [spas, query, typeId, radius, you, city]);
 
   function findNearMe() {
     if (!navigator.geolocation) {
@@ -85,7 +88,7 @@ export function SpaBrowser({
         setYou({ latitude: coords.latitude, longitude: coords.longitude });
         setLocationNote("Showing the nearest spas first. Times are approximate.");
       },
-      () => setLocationNote("We could not get your location, so distances are from Dharwad centre."),
+      () => setLocationNote(noLocation),
     );
   }
 
@@ -179,7 +182,7 @@ export function SpaBrowser({
       {view === "map" ? (
         <div className="h-[65vh] overflow-hidden rounded-2xl border border-line">
           <SpaMapLoader
-            center={you ?? mappable[0] ?? DHARWAD}
+            center={you ?? city.centre}
             you={you}
             spas={mappable.map((spa) => ({
               ...spa,

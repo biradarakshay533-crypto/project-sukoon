@@ -1,17 +1,9 @@
 import Link from "next/link";
+import { CityChoice, CityPicker } from "@/components/CityPicker";
 import { Logo } from "@/components/Logo";
 import { MASSAGE_NAMES, massageHref } from "@/lib/massage-names";
-import { SITE } from "@/lib/site-info";
 
 const navLink = "text-[15px] font-medium transition hover:text-brand";
-
-function PinIcon({ className = "size-4" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z" />
-    </svg>
-  );
-}
 
 function UserIcon() {
   return (
@@ -31,10 +23,7 @@ export function SiteHeader() {
         <div className="flex min-w-0 items-center gap-2.5 lg:gap-6">
           <MobileMenu />
           <Logo />
-          <span className="hidden items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-sm font-medium md:flex">
-            <PinIcon className="size-4 text-brand" />
-            {SITE.city.split(",")[0]}
-          </span>
+          <CityPicker />
         </div>
 
         <nav className="hidden items-center gap-7 lg:flex">
@@ -97,6 +86,8 @@ function MobileMenu() {
         </svg>
       </summary>
       <div className="absolute top-full left-0 z-40 mt-3 flex max-h-[75vh] w-72 flex-col overflow-y-auto rounded-xl border border-line bg-white py-3 shadow-xl">
+        <p className="px-5 pb-2 text-xs font-semibold tracking-widest text-muted uppercase">Your city</p>
+        <CityChoice />
         <Link href="/spas" className="px-5 py-2.5 font-medium">
           Find a spa
         </Link>

@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { DHARWAD, distanceKm, distanceLabel } from "@/lib/distance";
+import { useCity } from "@/lib/cities";
+import { distanceKm, distanceLabel } from "@/lib/distance";
 import type { Point } from "@/lib/distance";
 import { formatRupees } from "@/lib/format";
 import type { SpaSummary } from "@/lib/spas";
@@ -23,6 +24,7 @@ type NearbySpasProps = {
 export function NearbySpas({ spas, refundPercent, cutoffHours }: NearbySpasProps) {
   const [you, setYou] = useState<Point | null>(null);
   const [note, setNote] = useState("");
+  const city = useCity();
 
   // If the visitor already allowed location before, use it straight away.
   useEffect(() => {
@@ -39,7 +41,7 @@ export function NearbySpas({ spas, refundPercent, cutoffHours }: NearbySpasProps
   }, []);
 
   const sorted = useMemo(() => {
-    const from = you ?? DHARWAD;
+    const from = you ?? city.centre;
     return spas
       .map((spa) => ({
         spa,
@@ -50,7 +52,7 @@ export function NearbySpas({ spas, refundPercent, cutoffHours }: NearbySpasProps
       }))
       .sort((a, b) => (a.km ?? Infinity) - (b.km ?? Infinity))
       .slice(0, SHOWN);
-  }, [spas, you]);
+  }, [spas, you, city]);
 
   function findNearMe() {
     if (!navigator.geolocation) {
@@ -63,7 +65,7 @@ export function NearbySpas({ spas, refundPercent, cutoffHours }: NearbySpasProps
         setYou({ latitude: coords.latitude, longitude: coords.longitude });
         setNote("");
       },
-      () => setNote("We could not get your location, so distances are from Dharwad centre."),
+      () => setNote(`We could not get your location, so distances are from ${city.name} centre.`),
     );
   }
 
@@ -79,7 +81,7 @@ export function NearbySpas({ spas, refundPercent, cutoffHours }: NearbySpasProps
               Spas near you
             </h2>
             <p className="mt-1 text-sm text-muted">
-              {you ? "Closest to you first. Times are approximate." : "Distances from Dharwad centre."}
+              {you ? "Closest to you first. Times are approximate." : `Distances from ${city.name} centre.`}
               {!you && (
                 <button type="button" onClick={findNearMe} className="ml-1 font-semibold text-brand hover:underline">
                   Use my location

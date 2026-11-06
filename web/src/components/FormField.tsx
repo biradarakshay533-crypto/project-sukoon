@@ -37,14 +37,21 @@ type SelectFieldProps = {
   name: string;
   defaultValue?: string;
   required?: boolean;
+  onChange?: (value: string) => void;
   children: ReactNode;
 };
 
-export function SelectField({ label, name, defaultValue, required, children }: SelectFieldProps) {
+export function SelectField({ label, name, defaultValue, required, onChange, children }: SelectFieldProps) {
   return (
     <label className="flex flex-col gap-1.5 text-sm font-medium">
       {label}
-      <select name={name} defaultValue={defaultValue} required={required} className={controlStyle}>
+      <select
+        name={name}
+        defaultValue={defaultValue}
+        required={required}
+        onChange={onChange && ((event) => onChange(event.target.value))}
+        className={controlStyle}
+      >
         {children}
       </select>
     </label>

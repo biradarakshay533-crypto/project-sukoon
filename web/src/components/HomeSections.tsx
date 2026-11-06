@@ -130,7 +130,7 @@ export function PromoBanner() {
         </div>
         <div className="flex flex-col justify-center gap-2 p-6 sm:p-10">
           <p className="font-display text-3xl leading-tight font-bold sm:text-4xl">Spa day for two</p>
-          <p className="max-w-sm text-white/85">Book side-by-side couples massages at spas across Dharwad.</p>
+          <p className="max-w-sm text-white/85">Book side-by-side couples massages at spas across Hubballi and Dharwad.</p>
           <span className="mt-2 self-start rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold transition group-hover:bg-brand-dark">
             Book together →
           </span>

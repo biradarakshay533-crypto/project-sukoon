@@ -14,7 +14,7 @@ type AuthCardProps = {
   points?: string[];
 };
 
-const CUSTOMER_POINTS = ["Approved spas across Dharwad", "Pay only if the spa accepts", "100% refundable* if plans change"];
+const CUSTOMER_POINTS = ["Approved spas in Hubballi and Dharwad", "Pay only if the spa accepts", "100% refundable* if plans change"];
 
 // The split-screen frame shared by the sign-up and login pages.
 export function AuthCard({
