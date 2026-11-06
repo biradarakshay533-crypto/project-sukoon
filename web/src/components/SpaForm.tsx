@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useState } from "react";
 import { saveSpa } from "@/lib/spa-actions";
 import {
   FormField,
@@ -8,6 +8,9 @@ import {
   SubmitButton,
   TextAreaField,
 } from "@/components/FormField";
+import { LocationPickerLoader } from "@/components/SpaMapLoader";
+import { DHARWAD } from "@/lib/distance";
+import type { Point } from "@/lib/distance";
 
 type SpaFormProps = {
   spa: {
@@ -26,8 +29,14 @@ type SpaFormProps = {
 export function SpaForm({ spa }: SpaFormProps) {
   const [state, action, pending] = useActionState(saveSpa, {});
   const [locationNote, setLocationNote] = useState("");
-  const latitudeInput = useRef<HTMLInputElement>(null);
-  const longitudeInput = useRef<HTMLInputElement>(null);
+  const [point, setPoint] = useState<Point | null>(
+    spa?.latitude != null && spa.longitude != null ? { latitude: spa.latitude, longitude: spa.longitude } : null,
+  );
+
+  function pick(spot: Point) {
+    setPoint({ latitude: Number(spot.latitude.toFixed(6)), longitude: Number(spot.longitude.toFixed(6)) });
+    setLocationNote("Pin moved. Save to keep this location.");
+  }
 
   function fillMyLocation() {
     if (!navigator.geolocation) {
@@ -38,8 +47,7 @@ export function SpaForm({ spa }: SpaFormProps) {
     setLocationNote("Finding your location...");
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
-        latitudeInput.current!.value = coords.latitude.toFixed(6);
-        longitudeInput.current!.value = coords.longitude.toFixed(6);
+        pick({ latitude: coords.latitude, longitude: coords.longitude });
         setLocationNote("Location added. Use this only when you are at the spa.");
       },
       () => setLocationNote("We could not get your location. Please type it in."),
@@ -84,37 +92,27 @@ export function SpaForm({ spa }: SpaFormProps) {
           required
         />
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <FormField
-          ref={latitudeInput}
-          label="Latitude"
-          name="latitude"
-          type="number"
-          step="any"
-          min={-90}
-          max={90}
-          defaultValue={spa?.latitude ?? ""}
-          required
-        />
-        <FormField
-          ref={longitudeInput}
-          label="Longitude"
-          name="longitude"
-          type="number"
-          step="any"
-          min={-180}
-          max={180}
-          defaultValue={spa?.longitude ?? ""}
-          required
-        />
+      <div className="flex flex-col gap-2">
+        <p className="text-sm font-medium">Spa location on the map</p>
+        <p className="-mt-1 text-xs text-muted">Tap the map or drag the red pin to your spa&apos;s front door.</p>
+        <div className="h-72 overflow-hidden rounded-xl border border-line">
+          <LocationPickerLoader point={point ?? DHARWAD} onPick={pick} />
+        </div>
+        <input type="hidden" name="latitude" value={point?.latitude ?? ""} />
+        <input type="hidden" name="longitude" value={point?.longitude ?? ""} />
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={fillMyLocation}
+            className="rounded-lg border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand hover:text-brand"
+          >
+            Use my current location
+          </button>
+          <span className="text-xs text-muted">
+            {point ? `${point.latitude}, ${point.longitude}` : "No location chosen yet"}
+          </span>
+        </div>
       </div>
-      <button
-        type="button"
-        onClick={fillMyLocation}
-        className="self-start rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand"
-      >
-        Use my current location
-      </button>
       {locationNote && <p className="text-sm text-muted">{locationNote}</p>}
       <FormMessage error={state.error} success={state.success} />
       <SubmitButton
