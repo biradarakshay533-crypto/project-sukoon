@@ -17,5 +17,11 @@ export async function getViewerRole() {
     .eq("id", userId)
     .single();
 
-  return profile?.role === "partner" ? "partner" : "customer";
+  // No profile means the login is half-finished; treat them as a visitor, so
+  // the login page and account page do not keep sending them to each other.
+  if (!profile) {
+    return "guest";
+  }
+
+  return profile.role === "partner" ? "partner" : "customer";
 }
