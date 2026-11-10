@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import type { FormState } from "@/lib/auth-actions";
 import { toStartsAt } from "@/lib/booking-time";
+import { sendBookingAlert } from "@/lib/push";
 import { createClient } from "@/lib/supabase/server";
 
 function text(formData: FormData, name: string) {
@@ -33,15 +34,22 @@ export async function requestBooking(_state: FormState, formData: FormData): Pro
     return { error: "Please log in to send a booking request." };
   }
 
-  const { error } = await supabase.from("bookings").insert({
-    service_id: serviceId,
-    starts_at: toStartsAt(date, time),
-    customer_note: text(formData, "note") || null,
-  });
+  const { data: booking, error } = await supabase
+    .from("bookings")
+    .insert({
+      service_id: serviceId,
+      starts_at: toStartsAt(date, time),
+      customer_note: text(formData, "note") || null,
+    })
+    .select("id")
+    .single();
 
   if (error) {
     return { error: friendlyError(error, "We could not send your request. Please try again.") };
   }
+
+  // Ring the spa owner's phone, even if their app is closed.
+  await sendBookingAlert(supabase, booking.id);
 
   revalidatePath("/account");
   return { success: "Request sent! Follow the spa's answer in My bookings." };
@@ -63,6 +71,28 @@ export async function respondToBooking(_state: FormState, formData: FormData): P
     return { error: "Too late: the time to answer this request has passed." };
   }
   return {};
+}
+
+// A spa owner's phone allowed notifications: remember where to send them.
+export async function savePushSubscription(subscription: {
+  endpoint: string;
+  keys: { p256dh: string; auth: string };
+}): Promise<FormState> {
+  const { endpoint, keys } = subscription ?? {};
+  if (typeof endpoint !== "string" || typeof keys?.p256dh !== "string" || typeof keys?.auth !== "string") {
+    return { error: "This phone did not give a notification address. Please try again." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("save_push_subscription", {
+    new_endpoint: subscription.endpoint,
+    new_p256dh: subscription.keys.p256dh,
+    new_auth: subscription.keys.auth,
+  });
+  if (error) {
+    return { error: friendlyError(error, "We could not turn on notifications. Please try again.") };
+  }
+  return { success: "Notifications are on for this phone." };
 }
 
 export async function cancelBooking(_state: FormState, formData: FormData): Promise<FormState> {

@@ -8,10 +8,12 @@ import { ProfileForm } from "@/components/ProfileForm";
 type ProfilePanelProps = {
   role: "customer" | "partner";
   nextUp: ReactNode;
+  // An optional card shown above nextUp, such as the notifications switch.
+  alerts?: ReactNode;
 };
 
 // Shows the signed-in user's details and sends everyone else to the right page.
-export async function ProfilePanel({ role, nextUp }: ProfilePanelProps) {
+export async function ProfilePanel({ role, nextUp, alerts }: ProfilePanelProps) {
   // Supabase checks the clock when it reads the login, so this must wait for a real visit.
   await connection();
   const supabase = await createClient();
@@ -44,6 +46,8 @@ export async function ProfilePanel({ role, nextUp }: ProfilePanelProps) {
         <h1 className="relative mt-1 font-display text-3xl font-bold">Hello, {profile.full_name}</h1>
         <p className="relative mt-1 text-white/75">{profile.email}</p>
       </div>
+
+      {alerts}
 
       <section className="rounded-2xl border border-line bg-white p-5 text-foreground shadow-sm sm:p-6">{nextUp}</section>
 

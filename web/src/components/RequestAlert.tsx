@@ -11,6 +11,23 @@ import { formatRupees } from "@/lib/format";
 
 const CHECK_EVERY_SECONDS = 10;
 const RING_EVERY_MS = 2000;
+const ALERTS_KEY = "sukoonam-booking-alerts";
+
+function alertsWereOn() {
+  try {
+    return window.localStorage.getItem(ALERTS_KEY) === "on";
+  } catch {
+    return false;
+  }
+}
+
+function rememberAlertsOn() {
+  try {
+    window.localStorage.setItem(ALERTS_KEY, "on");
+  } catch {
+    // Storage blocked: the owner taps the button again next time.
+  }
+}
 
 // Like a ride app: while a request is waiting, a popup covers the page and
 // keeps ringing until the spa accepts or declines it.
@@ -47,11 +64,42 @@ export function RequestAlert({ requests, nowIso }: { requests: BookingRow[]; now
     };
   }, [request, requests.length, soundOn]);
 
+  // If the owner turned alerts on before, switch them back on by themselves.
+  // An installed app on Android may play sound straight away; otherwise the
+  // first tap anywhere on the page unlocks it, with no special button needed.
+  useEffect(() => {
+    if (!alertsWereOn()) {
+      return;
+    }
+    const context = new AudioContext();
+    audio.current = context;
+
+    const unlock = () => {
+      void context.resume().then(() => {
+        if (context.state === "running") {
+          setSoundOn(true);
+        }
+      });
+    };
+    unlock();
+    document.addEventListener("pointerdown", unlock);
+    document.addEventListener("keydown", unlock);
+    // Phones pause sound when the app goes to the background; restart it on return.
+    document.addEventListener("visibilitychange", unlock);
+    return () => {
+      document.removeEventListener("pointerdown", unlock);
+      document.removeEventListener("keydown", unlock);
+      document.removeEventListener("visibilitychange", unlock);
+      void context.close();
+    };
+  }, []);
+
   // Browsers only allow sound after the person has tapped something.
   function turnOnSound() {
     audio.current ??= new AudioContext();
     void audio.current.resume();
     ring(audio.current);
+    rememberAlertsOn();
     setSoundOn(true);
   }
 
