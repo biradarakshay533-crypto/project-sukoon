@@ -1,19 +1,11 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { CityChoice, CityPicker } from "@/components/CityPicker";
+import { GuestLinks, HeaderAccount } from "@/components/HeaderAccount";
 import { Logo } from "@/components/Logo";
 import { MASSAGE_NAMES, massageHref } from "@/lib/massage-names";
 
 const navLink = "text-[15px] font-medium transition hover:text-brand";
-
-function UserIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="size-6" aria-hidden="true">
-      <circle cx="12" cy="12" r="9.5" />
-      <circle cx="12" cy="10" r="3.2" />
-      <path d="M6.5 18.5a6.5 6.5 0 0 1 11 0" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 // The sticky top bar shared by every public page.
 export function SiteHeader() {
@@ -59,17 +51,9 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2.5 sm:gap-5">
-          <Link href="/login" className="flex items-center gap-2 text-sm font-medium transition hover:text-brand">
-            <UserIcon />
-            <span className="hidden xl:inline">Log in / Sign up</span>
-          </Link>
-          <Link
-            href="/partner/signup"
-            className="shrink-0 whitespace-nowrap rounded-lg bg-brand px-2.5 py-2 text-[13px] font-semibold text-white transition hover:bg-brand-dark sm:px-3.5 sm:text-sm"
-          >
-            <span className="sm:hidden">Spa owner?</span>
-            <span className="hidden sm:inline">For spa owners</span>
-          </Link>
+          <Suspense fallback={<GuestLinks />}>
+            <HeaderAccount />
+          </Suspense>
         </div>
       </div>
     </header>

@@ -118,12 +118,12 @@ async function SpaDetails({ params }: { params: Promise<{ id: string }> }) {
             />
           </div>
           <a
-            href={`https://www.openstreetmap.org/?mlat=${spa.latitude}&mlon=${spa.longitude}#map=17/${spa.latitude}/${spa.longitude}`}
+            href={`https://www.google.com/maps/dir/?api=1&destination=${spa.latitude},${spa.longitude}`}
             target="_blank"
             rel="noreferrer"
-            className="text-sm text-brand hover:underline"
+            className="text-sm font-semibold text-brand hover:underline"
           >
-            Open in a full map
+            Get directions in Google Maps →
           </a>
         </section>
       )}

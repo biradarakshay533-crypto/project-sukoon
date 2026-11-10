@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { AuthCard } from "@/components/AuthCard";
+import { RedirectIfLoggedIn } from "@/components/HeaderAccount";
 import { SignupForm } from "@/components/SignupForm";
 
 export const metadata: Metadata = { title: "Sign up | Sukoonam" };
@@ -8,6 +10,9 @@ export const metadata: Metadata = { title: "Sign up | Sukoonam" };
 export default function SignupPage() {
   return (
     <AuthCard title="Create your account" subtitle="Book spa visits near you.">
+      <Suspense>
+        <RedirectIfLoggedIn />
+      </Suspense>
       <SignupForm role="customer" />
       <p className="mt-6 text-sm text-muted">
         Already have an account?{" "}
