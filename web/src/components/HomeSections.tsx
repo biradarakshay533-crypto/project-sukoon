@@ -72,10 +72,10 @@ export function MassageMoods() {
   return (
     <section className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4">
       <SectionTitle title="Relaxing massage for a better you" subtitle="Pick how you want to feel" />
-      <ul className="no-scrollbar -mx-4 flex snap-x gap-3 overflow-x-auto px-4 lg:mx-0 lg:grid lg:grid-cols-4 lg:px-0">
+      <ul className="no-scrollbar -mx-4 flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 lg:mx-0 lg:grid lg:grid-cols-4 lg:px-0">
         {moods.map((mood) => (
           <li key={mood.title} className="w-[70%] shrink-0 snap-start sm:w-[45%] lg:w-auto">
-            <Link href={massageHref(mood.type)} className="group block overflow-hidden rounded-xl">
+            <Link href={massageHref(mood.type)} className="press group block overflow-hidden rounded-xl">
               <div className="relative flex aspect-[4/5] items-end overflow-hidden sm:aspect-[4/3] lg:aspect-[4/5]">
                 <Image
                   src={pexelsUrl(mood.photo)}

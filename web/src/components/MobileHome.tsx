@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { CityChoice } from "@/components/CityPicker";
 import { FadeImage } from "@/components/FadeImage";
 import { SearchHint } from "@/components/SearchHint";
@@ -19,6 +20,8 @@ type MobileHomeProps = {
   massageTypes: MassageType[];
   refundPercent: number;
   cutoffHours: number;
+  // The massage video cards, shown between the recommendations and the spa list.
+  moods?: ReactNode;
 };
 
 type Chip = "near" | "within3" | "open" | "budget";
@@ -37,7 +40,7 @@ function isOpen(spa: SpaSummary, now: string) {
 // The phone home screen, laid out like a food-delivery app: city and search
 // at the top, massage circles and filter chips pinned while scrolling, then
 // big swipeable spa cards.
-export function MobileHome({ spas, massageTypes, refundPercent, cutoffHours }: MobileHomeProps) {
+export function MobileHome({ spas, massageTypes, refundPercent, cutoffHours, moods }: MobileHomeProps) {
   const city = useCity();
   const [you, setYou] = useState<Point | null>(null);
   const [typeId, setTypeId] = useState<string | null>(null);
@@ -242,6 +245,8 @@ export function MobileHome({ spas, massageTypes, refundPercent, cutoffHours }: M
             </div>
           </section>
         )}
+
+        {moods && !typeId && chips.size === 0 && <div className="-mx-4">{moods}</div>}
 
         <section className="flex flex-col gap-4">
           <h2 className="text-xs font-semibold tracking-[0.16em] text-muted uppercase">

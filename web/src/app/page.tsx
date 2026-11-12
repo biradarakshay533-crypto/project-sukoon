@@ -34,7 +34,13 @@ async function HomeContent() {
 
   return (
     <>
-    <MobileHome spas={spas} massageTypes={massageTypes} refundPercent={refund.percent} cutoffHours={refund.cutoffHours} />
+    <MobileHome
+      spas={spas}
+      massageTypes={massageTypes}
+      refundPercent={refund.percent}
+      cutoffHours={refund.cutoffHours}
+      moods={<MassageMoods />}
+    />
     <div className="hidden flex-col gap-12 pt-8 pb-14 md:flex">
       <section id="massages" className="mx-auto flex w-full max-w-7xl scroll-mt-24 flex-col gap-4 px-4">
         <SectionTitle title="Popular massages" action={{ label: "View all", href: "/spas" }} />
