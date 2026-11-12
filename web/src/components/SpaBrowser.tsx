@@ -16,6 +16,7 @@ type SpaBrowserProps = {
   initialTypeId?: string | null;
   initialRadius?: number | null;
   startNearMe?: boolean;
+  initialView?: "list" | "map";
 };
 
 const RADII = [1, 3, 5, 10];
@@ -31,11 +32,12 @@ export function SpaBrowser({
   initialTypeId = null,
   initialRadius = null,
   startNearMe = false,
+  initialView = "list",
 }: SpaBrowserProps) {
   const [query, setQuery] = useState(initialQuery);
   const [typeId, setTypeId] = useState<string | null>(initialTypeId);
   const [radius, setRadius] = useState<number | null>(initialRadius);
-  const [view, setView] = useState<"list" | "map">("list");
+  const [view, setView] = useState<"list" | "map">(initialView);
   const [you, setYou] = useState<Point | null>(null);
   const [locationNote, setLocationNote] = useState(startNearMe ? "Finding spas near you..." : "");
   const city = useCity();

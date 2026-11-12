@@ -12,7 +12,7 @@ type SpaCardProps = {
 // The photo card used wherever a spa is listed.
 export function SpaCard({ spa, distanceLabel, priority = false }: SpaCardProps) {
   return (
-    <Link href={`/spas/${spa.id}`} className="group block overflow-hidden rounded-xl border border-line bg-white shadow-sm transition hover:shadow-md">
+    <Link href={`/spas/${spa.id}`} className="press group block overflow-hidden rounded-xl border border-line bg-white shadow-sm transition hover:shadow-md">
       <div className="relative aspect-[4/3] overflow-hidden bg-line">
         {spa.photoUrl && (
           <Image

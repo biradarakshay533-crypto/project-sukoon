@@ -30,7 +30,7 @@ async function SpaList({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { q, type, near, within } = await searchParams;
+  const { q, type, near, within, view } = await searchParams;
   const radius = Number(within);
   const { spas, massageTypes } = await getApprovedSpas();
   // "type" may be a massage type's id or its name.
@@ -38,12 +38,15 @@ async function SpaList({
 
   return (
     <SpaBrowser
+      // A new key resets the list when the Map tab changes the view.
+      key={view === "map" ? "map" : "list"}
       spas={spas}
       massageTypes={massageTypes}
       initialQuery={typeof q === "string" ? q : ""}
       initialTypeId={match?.id ?? null}
       initialRadius={[1, 3, 5, 10].includes(radius) ? radius : null}
       startNearMe={near === "1" || [1, 3, 5, 10].includes(radius)}
+      initialView={view === "map" ? "map" : "list"}
     />
   );
 }

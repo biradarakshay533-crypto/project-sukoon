@@ -10,6 +10,9 @@ export type SpaSummary = {
   longitude: number | null;
   isFeatured: boolean;
   photoUrl: string | null;
+  // Up to five photos, for swipeable cards.
+  photoUrls: string[];
+  openingHours: { open?: string; close?: string } | null;
   massageTypeIds: string[];
   massageTypeNames: string[];
   lowestPricePaise: number | null;
@@ -72,6 +75,8 @@ export async function getApprovedSpas() {
       longitude: spa.longitude,
       isFeatured: spa.is_featured === true,
       photoUrl: photos[0] ? photoUrl(supabase, photos[0].storage_path) : null,
+      photoUrls: photos.slice(0, 5).map((photo) => photoUrl(supabase, photo.storage_path)),
+      openingHours: spa.opening_hours ?? null,
       massageTypeIds: typeIds,
       massageTypeNames: typeIds.map((id) => typeNames.get(id)).filter((name) => name !== undefined),
       lowestPricePaise: services.length

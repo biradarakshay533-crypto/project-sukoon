@@ -6,7 +6,7 @@ export function MassageTile({ type }: { type: MassageType }) {
   return (
     <Link
       href={`/spas?type=${type.id}`}
-      className="group flex w-[5.5rem] shrink-0 flex-col items-center gap-2 text-center sm:w-auto"
+      className="press group flex w-[5.5rem] shrink-0 flex-col items-center gap-2 text-center sm:w-auto"
     >
       <span className="relative block size-20 overflow-hidden rounded-full bg-line ring-2 ring-white shadow-md transition duration-300 group-hover:ring-brand sm:size-24">
         {type.imageUrl && (

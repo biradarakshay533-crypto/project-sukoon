@@ -1,16 +1,30 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { AppTabBar, TabBarView } from "@/components/AppTabBar";
 import { CityChoice, CityPicker } from "@/components/CityPicker";
+import { LiveBookingPill } from "@/components/LiveBookingPill";
 import { GuestLinks, HeaderAccount } from "@/components/HeaderAccount";
 import { Logo } from "@/components/Logo";
 import { MASSAGE_NAMES, massageHref } from "@/lib/massage-names";
 
 const navLink = "text-[15px] font-medium transition hover:text-brand";
 
-// The sticky top bar shared by every public page.
-export function SiteHeader() {
+// The sticky top bar shared by every public page, plus the phone tab bar.
+// On the phone home page the search bar is pinned instead, so the header
+// scrolls away there (stickyOnPhone={false}).
+export function SiteHeader({ stickyOnPhone = true }: { stickyOnPhone?: boolean }) {
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-white/95 backdrop-blur">
+    <>
+    <Suspense fallback={<TabBarView path="" />}>
+      <AppTabBar
+        pill={
+          <Suspense fallback={null}>
+            <LiveBookingPill />
+          </Suspense>
+        }
+      />
+    </Suspense>
+    <header className={`${stickyOnPhone ? "sticky" : "relative md:sticky"} top-0 z-30 border-b border-line bg-white/95 backdrop-blur`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-4">
         <div className="flex min-w-0 items-center gap-2.5 lg:gap-6">
           <MobileMenu />
@@ -57,6 +71,7 @@ export function SiteHeader() {
         </div>
       </div>
     </header>
+    </>
   );
 }
 

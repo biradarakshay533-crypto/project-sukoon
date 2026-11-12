@@ -4,6 +4,7 @@ import { FeaturedSpas } from "@/components/FeaturedSpas";
 import { HomeHero } from "@/components/HomeHero";
 import { MassageMoods, PromoBanner, SectionTitle, WhyChoose } from "@/components/HomeSections";
 import { MassageTile } from "@/components/MassageTile";
+import { MobileHome } from "@/components/MobileHome";
 import { NearbySpas } from "@/components/NearbySpas";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -11,21 +12,18 @@ import { getApprovedSpas } from "@/lib/spas";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col pb-16 sm:pb-0">
-      <SiteHeader />
-      <HomeHero />
+    <div className="flex flex-1 flex-col">
+      <SiteHeader stickyOnPhone={false} />
+      {/* Phones get the app-style home inside HomeContent instead of the big hero. */}
+      <div className="hidden md:block">
+        <HomeHero />
+      </div>
       <Suspense fallback={<HomeSkeleton />}>
         <HomeContent />
       </Suspense>
       <HowItWorks />
       <PartnerBand />
       <SiteFooter />
-      <Link
-        href="/spas?near=1"
-        className="fixed inset-x-3 bottom-3 z-20 rounded-xl bg-brand py-3.5 text-center text-sm font-semibold text-white shadow-lg sm:hidden"
-      >
-        Find a spa near me
-      </Link>
     </div>
   );
 }
@@ -35,7 +33,9 @@ async function HomeContent() {
   const featured = spas.filter((spa) => spa.isFeatured);
 
   return (
-    <div className="flex flex-col gap-12 pt-8 pb-14">
+    <>
+    <MobileHome spas={spas} massageTypes={massageTypes} refundPercent={refund.percent} cutoffHours={refund.cutoffHours} />
+    <div className="hidden flex-col gap-12 pt-8 pb-14 md:flex">
       <section id="massages" className="mx-auto flex w-full max-w-7xl scroll-mt-24 flex-col gap-4 px-4">
         <SectionTitle title="Popular massages" action={{ label: "View all", href: "/spas" }} />
         <div className="no-scrollbar -mx-4 flex gap-4 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-[repeat(auto-fill,minmax(5.75rem,1fr))] sm:gap-y-5 sm:overflow-visible sm:px-0">
@@ -63,20 +63,21 @@ async function HomeContent() {
 
       <WhyChoose refundPercent={refund.percent} cutoffHours={refund.cutoffHours} />
     </div>
+    </>
   );
 }
 
 function HomeSkeleton() {
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-10">
-      <div className="h-8 w-56 animate-pulse rounded bg-line" />
+      <div className="h-8 w-56 shimmer rounded" />
       <div className="flex gap-4 overflow-hidden">
         {Array.from({ length: 8 }, (_, index) => (
-          <div key={index} className="size-20 shrink-0 animate-pulse rounded-full bg-line sm:size-24" />
+          <div key={index} className="size-20 shrink-0 shimmer rounded-full sm:size-24" />
         ))}
       </div>
       {Array.from({ length: 3 }, (_, index) => (
-        <div key={index} className="h-28 animate-pulse rounded-xl bg-line" />
+        <div key={index} className="h-28 shimmer rounded-xl" />
       ))}
     </div>
   );
