@@ -57,7 +57,7 @@ export function Icon({ path, className = "size-10" }: { path: string; className?
 export function MassageMoods() {
   // Short ids are Pexels clips; full links are Pixabay clips, free under its content licence.
   const moods = [
-    { title: "Melt the stress away", type: "Aromatherapy Massage", photo: "3757942", video: "https://cdn.pixabay.com/video/2022/07/20/124866-732633125_tiny.mp4" },
+    { title: "Melt the stress away", type: "Aromatherapy Massage", photo: "3757942", video: "5659265-sd_360_640_30fps" },
     { title: "Ease sore muscles", type: "Deep Tissue Massage", photo: "6560288", video: "https://cdn.pixabay.com/video/2015/09/06/701-138504820_small.mp4" },
     { title: "Rooted in tradition", type: "Ayurvedic Massage (Abhyanga)", photo: "32306093", video: "6187313-sd_640_360_25fps" },
     {

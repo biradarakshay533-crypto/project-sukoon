@@ -13,7 +13,11 @@ import { distanceKm, distanceLabel, travelMinutes } from "@/lib/distance";
 import type { Point } from "@/lib/distance";
 import { formatRupees } from "@/lib/format";
 import type { MassageType, SpaSummary } from "@/lib/spas";
-import { pexelsUrl } from "@/lib/stock-photos";
+import { LoopVideo } from "@/components/LoopVideo";
+import { pexelsUrl, pexelsVideo } from "@/lib/stock-photos";
+
+// The same slow-motion candle-lit massage clip as the desktop hero.
+const BANNER_VIDEO = pexelsVideo("6629858-sd_960_506_25fps");
 
 type MobileHomeProps = {
   spas: SpaSummary[];
@@ -170,8 +174,9 @@ export function MobileHome({ spas, massageTypes, refundPercent, cutoffHours, moo
       {/* A small offer-style banner instead of the big desktop video. */}
       <div className="px-4 pt-2 pb-4">
         <Link href="/spas?near=1" className="press relative flex h-36 overflow-hidden rounded-2xl bg-night text-white">
-          <Image src={pexelsUrl("7432859", 700)} alt="" fill priority sizes="100vw" className="object-cover object-[70%_center] opacity-70" />
-          <span className="absolute inset-0 bg-gradient-to-r from-night via-night/80 to-transparent" />
+          <Image src={pexelsUrl("7432859", 700)} alt="" fill priority sizes="100vw" className="object-cover object-[70%_center]" />
+          <LoopVideo src={BANNER_VIDEO} rate={0.8} className="object-[70%_center]" />
+          <span className="absolute inset-0 bg-gradient-to-r from-night via-night/75 to-night/10" />
           <span className="relative flex flex-col justify-center gap-1.5 p-4">
             <span className="text-[11px] font-semibold tracking-widest text-white/70 uppercase">Relax · Restore · Unwind</span>
             <span className="font-display text-xl leading-tight font-bold">
@@ -246,8 +251,6 @@ export function MobileHome({ spas, massageTypes, refundPercent, cutoffHours, moo
           </section>
         )}
 
-        {moods && !typeId && chips.size === 0 && <div className="-mx-4">{moods}</div>}
-
         <section className="flex flex-col gap-4">
           <h2 className="text-xs font-semibold tracking-[0.16em] text-muted uppercase">
             {results.length} {results.length === 1 ? "spa" : "spas"} {typeName ? `for ${typeName.replace(" Massage", "")}` : you ? "near you" : `around ${city.name}`}
@@ -279,6 +282,9 @@ export function MobileHome({ spas, massageTypes, refundPercent, cutoffHours, moo
             </p>
           )}
         </section>
+
+        {/* The massage video cards come after the nearby spas. */}
+        {moods && !typeId && chips.size === 0 && <div className="-mx-4">{moods}</div>}
       </div>
     </div>
   );
