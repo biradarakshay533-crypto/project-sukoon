@@ -23,6 +23,8 @@ export const metadata: Metadata = {
   title: "Sukoonam",
   description: "Find and book spas near you",
   applicationName: "Sukoonam",
+  // Private preview: keep it out of Google until launch (see app/robots.ts).
+  robots: { index: false, follow: false },
   // On iPhones, "Add to Home Screen" opens full-screen with this name.
   appleWebApp: { capable: true, title: "Sukoonam", statusBarStyle: "default" },
 };

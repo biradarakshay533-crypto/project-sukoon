@@ -1,9 +1,22 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isAlwaysOpen, PREVIEW_COOKIE, PREVIEW_PAGE, previewPassword, previewToken } from "@/lib/preview-gate";
 
-// Runs before each page loads and keeps the visitor's login fresh.
+// Runs before each page loads: checks the preview password, then keeps the
+// visitor's login fresh.
 export async function proxy(request: NextRequest) {
+  const password = previewPassword();
+  const path = request.nextUrl.pathname;
+  if (password && !isAlwaysOpen(path)) {
+    const token = request.cookies.get(PREVIEW_COOKIE)?.value;
+    if (token !== (await previewToken(password))) {
+      const gate = new URL(PREVIEW_PAGE, request.url);
+      gate.searchParams.set("next", path + request.nextUrl.search);
+      return NextResponse.redirect(gate);
+    }
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
